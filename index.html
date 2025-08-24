@@ -224,7 +224,7 @@
                     return `${sign}${number.toFixed(2)}%`;
                 }
                 if (key === 'btc_price_eur') {
-                    return `€${number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    return `€${number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 }
                 return number.toFixed(4);
             }
@@ -402,3 +402,4 @@
     </script>
 </body>
 </html>
+
