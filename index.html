@@ -191,6 +191,21 @@
                 },
 
                 /**
+                 * Calculates the cumulative inflation over a number of years based on an annual rate.
+                 * @param {number} annualRate - The annual inflation rate (e.g., 2.5 for 2.5%).
+                 * @param {number} years - The number of years to compound.
+                 * @returns {number} The total cumulative inflation rate.
+                 */
+                calculateCumulativeInflation(annualRate, years) {
+                    // For 1 year or less, the cumulative rate is just the annual rate.
+                    if (years <= 1) return annualRate;
+                    
+                    const rateDecimal = annualRate / 100;
+                    const cumulativeRate = (Math.pow(1 + rateDecimal, years) - 1) * 100;
+                    return cumulativeRate;
+                },
+
+                /**
                  * Updates all the key performance indicators (KPIs) in the dashboard.
                  */
                 updateKpis() {
@@ -316,14 +331,39 @@
                         }
                     });
 
+                    // --- Updated Event Listener Logic ---
                     document.querySelectorAll('.bond-chart-btn').forEach(button => {
                         button.addEventListener('click', () => {
+                            // 1. Update the bar data (same as before)
                             const metric = button.dataset.metric;
                             const metricData = bondsData.metrics[metric];
-                            this.charts.bonds.data.datasets[0].label = metricData.label;
-                            this.charts.bonds.data.datasets[0].data = metricData.data;
-                            this.charts.bonds.update();
+                            const chart = this.charts.bonds;
+                            chart.data.datasets[0].label = metricData.label;
+                            chart.data.datasets[0].data = metricData.data;
                             
+                            // 2. Determine the period in years
+                            let years = 1;
+                            if (metric === 'return3Y') years = 3;
+                            if (metric === 'return5Y') years = 5;
+
+                            // 3. Calculate new inflation values
+                            const newEuInflation = this.calculateCumulativeInflation(euInflation, years);
+                            const newEsInflation = this.calculateCumulativeInflation(esInflation, years);
+                            
+                            // 4. Update the chart annotation lines
+                            const { annotations } = chart.options.plugins.annotation;
+                            annotations.euLine.yMin = newEuInflation;
+                            annotations.euLine.yMax = newEuInflation;
+                            annotations.esLine.yMin = newEsInflation;
+                            annotations.esLine.yMax = newEsInflation;
+
+                            // 5. Update the legend text
+                            const legendSuffix = years > 1 ? ` (${years}Y Cum.)` : ` (Annual)`;
+                            document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${newEuInflation.toFixed(1)}%${legendSuffix})`;
+                            document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${newEsInflation.toFixed(1)}%${legendSuffix})`;
+                            
+                            // 6. Redraw the chart and update button styles
+                            chart.update();
                             document.querySelectorAll('.bond-chart-btn').forEach(btn => btn.classList.remove('active', 'bg-slate-600', 'text-white'));
                             button.classList.add('active', 'bg-slate-600', 'text-white');
                         });
@@ -389,4 +429,5 @@
     </script>
 </body>
 </html>
+
 
