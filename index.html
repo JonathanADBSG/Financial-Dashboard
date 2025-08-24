@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Weekly Financial Report</title>
+    <title>Financial Dashboard</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#475569">
@@ -73,7 +73,6 @@
 
         <header class="text-center bg-slate-800 text-white p-10 rounded-xl shadow-md mb-8">
             <h1 class="text-4xl md:text-5xl font-bold">Financial Dashboard</h1>
-            <p id="report-date" class="text-slate-300 mt-2"></p>
         </header>
         <nav class="flex justify-center items-center bg-white/60 backdrop-blur-sm rounded-full shadow-sm p-2 mb-8 sticky top-4 z-10 max-w-md mx-auto">
             <button id="btn-portfolio" class="nav-btn active flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Portfolio</button>
@@ -232,17 +231,11 @@
 
             async function initDashboard() {
                 // ## START OF JAVASCRIPT CHANGE ##
-                // This code has been restored to dynamically update the date in the new banner.
-                const reportDateElement = document.getElementById('report-date');
-                const today = new Date(); // Sunday, August 24, 2025
-                const dayOfWeek = today.getDay(); // Sunday is 0
-                const daysToLastFriday = (dayOfWeek + 2) % 7; // (0 + 2) % 7 = 2
-                const lastFriday = new Date();
-                lastFriday.setDate(today.getDate() - daysToLastFriday); // 24 - 2 = 22nd
-                reportDateElement.textContent = `For the week ending ${lastFriday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                // The dynamic date logic for the subtitle has been removed.
+                const today = new Date();
                 // ## END OF JAVASCRIPT CHANGE ##
 
-                // Update dynamic date fields
+                // Update dynamic date fields elsewhere on the page
                 document.querySelector('#euribor-12m').previousElementSibling.textContent = `Rate as of ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
 
                 try {
