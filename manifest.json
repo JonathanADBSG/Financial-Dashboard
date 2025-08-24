@@ -1,0 +1,21 @@
+{
+  "name": "Weekly Financial Report",
+  "short_name": "FinReport",
+  "description": "An interactive weekly dashboard for portfolio, economy, and bond data.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f8f7f4",
+  "theme_color": "#475569",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
