@@ -48,7 +48,11 @@
         <main>
             <section id="portfolio-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VTI (YTD)</h3><p id="vti-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+                        <h3 class="font-semibold text-slate-500">VTI (YTD)</h3>
+                        <p id="vti-ytd-usd" class="text-3xl font-bold mt-2 text-emerald-600">...</p>
+                        <p id="vti-ytd-eur" class="text-lg font-semibold text-slate-500 mt-1">...</p>
+                    </div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VWRL (YTD)</h3><p id="vwrl-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">ERNE (YTD)</h3><p id="erne-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">Bitcoin (YTD)</h3><p id="btc-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p><p id="btc-price" class="text-sm text-slate-500 mt-1">...</p></div>
@@ -144,15 +148,11 @@
                 cleanValue(value) {
                     if (typeof value !== 'string' || !value.trim() || value.trim().toLowerCase() === 'n/a') return NaN;
                     
-                    let numStr = value.replace(/[^\d,.]/g, ''); // Keep only digits, commas, periods
+                    let numStr = value.replace(/[^\d,.\-]/g, ''); 
 
-                    // If the last separator is a comma, assume EU-style decimal (e.g., "1.234,56")
                     if (numStr.lastIndexOf(',') > numStr.lastIndexOf('.')) {
-                        // Remove periods (thousands separators) and convert comma to a decimal period.
                         numStr = numStr.replace(/\./g, '').replace(',', '.');
                     } else {
-                        // Otherwise, assume US-style (e.g., "1,234.56" or "1,234").
-                        // Just remove commas as thousands separators.
                         numStr = numStr.replace(/,/g, '');
                     }
                     
@@ -171,13 +171,11 @@
                     if (isNaN(number)) return 'N/A';
 
                     if (key === 'btc_price_eur') {
-                        // Use en-US locale for comma thousands separators, and don't force decimal places
                         return `€${number.toLocaleString('en-US')}`;
                     }
                     if (key === 'usd_eur_rate') {
                         return number.toFixed(4);
                     }
-                    // Default to percentage format
                     return `${number > 0 ? '+' : ''}${number.toFixed(2)}%`;
                 },
 
@@ -196,7 +194,7 @@
                  */
                 updateKpis() {
                     const kpiMapping = {
-                        'vti-ytd': 'vti_ytd', 'vwrl-ytd': 'vwrl_ytd', 'erne-ytd': 'erne_ytd',
+                        'vti-ytd-usd': 'vti_ytd', 'vwrl-ytd': 'vwrl_ytd', 'erne-ytd': 'erne_ytd',
                         'btc-ytd': 'btc_ytd', 'btc-price': 'btc_price_eur', 'usd-eur-rate': 'usd_eur_rate',
                         'usd-eur-ytd': 'usd_eur_ytd', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
                         'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m',
@@ -209,7 +207,20 @@
                             let formattedValue = this.formatValue(dataKey, this.data[dataKey]);
                             if (elementId === 'btc-price') formattedValue = `Current Price: ${formattedValue}`;
                             if (elementId === 'usd-eur-ytd') formattedValue = `YTD: ${formattedValue}`;
+                            if (elementId === 'vti-ytd-usd') formattedValue = `${formattedValue} (USD)`;
                             element.textContent = formattedValue;
+                        }
+                    }
+                    
+                    const vtiYtdUsd = this.getNumericData('vti_ytd');
+                    const usdEurYtd = this.getNumericData('usd_eur_ytd');
+                    if (!isNaN(vtiYtdUsd) && !isNaN(usdEurYtd)) {
+                        const vtiYtdEur = vtiYtdUsd + usdEurYtd;
+                        const vtiEurElement = document.getElementById('vti-ytd-eur');
+                        if (vtiEurElement) {
+                            const formattedEurValue = `${vtiYtdEur > 0 ? '+' : ''}${vtiYtdEur.toFixed(2)}% (EUR)`;
+                            vtiEurElement.textContent = formattedEurValue;
+                            vtiEurElement.className = vtiYtdEur >= 0 ? 'text-lg font-semibold text-emerald-600 mt-1' : 'text-lg font-semibold text-red-500 mt-1';
                         }
                     }
 
@@ -304,7 +315,6 @@
                         }
                     });
 
-                    // Add event listener for bond chart buttons
                     document.querySelectorAll('.bond-chart-btn').forEach(button => {
                         button.addEventListener('click', () => {
                             const metric = button.dataset.metric;
@@ -323,7 +333,6 @@
                  * Sets up all general event listeners for the application (e.g., navigation).
                  */
                 setupEventListeners() {
-                    // Tab navigation logic
                     document.querySelectorAll('.nav-btn').forEach(button => {
                         button.addEventListener('click', () => {
                             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -341,7 +350,7 @@
                  */
                 updateDateDisplays() {
                     const today = new Date();
-                    const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    const dateString = today.toLocaleDateDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
                     const euriborDateElement = document.querySelector('#euribor-12m').previousElementSibling;
                     euriborDateElement.textContent = `Rate as of ${dateString}`;
                 },
@@ -379,4 +388,3 @@
     </script>
 </body>
 </html>
-
