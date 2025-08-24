@@ -78,7 +78,7 @@
         </main>
     </div>
 
-    <script>
+   <script>
         document.addEventListener('DOMContentLoaded', () => {
             const App = {
                 GOOGLE_SHEET_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvNBIshbQTCJHdH6Ulh7eZd7Mpxi5hog4iWbhS84Sd5vRQN8Mu4PTxDAXNTfKN6AGR2MllCFnehxKU/pub?gid=0&single=true&output=csv',
@@ -144,20 +144,21 @@
                 cleanValue(value) {
                     if (typeof value !== 'string' || !value.trim() || value.trim().toLowerCase() === 'n/a') return NaN;
                     
-                    const hasComma = value.includes(',');
-                    const hasPeriod = value.includes('.');
-                    let cleanedString = value.replace(/"/g, '').replace(/€|%/g, '').trim();
+                    let numStr = value.replace(/[^\d,.]/g, ''); // Keep only digits, commas, periods
 
-                    if (hasComma && hasPeriod) {
-                        cleanedString = value.lastIndexOf(',') > value.lastIndexOf('.')
-                            ? cleanedString.replace(/\./g, '').replace(',', '.') // EU style: 1.234,56
-                            : cleanedString.replace(/,/g, ''); // US style: 1,234.56
-                    } else if (hasComma) {
-                        cleanedString = cleanedString.replace(',', '.'); // EU style decimal: 1,23
+                    // If the last separator is a comma, assume EU-style decimal (e.g., "1.234,56")
+                    if (numStr.lastIndexOf(',') > numStr.lastIndexOf('.')) {
+                        // Remove periods (thousands separators) and convert comma to a decimal period.
+                        numStr = numStr.replace(/\./g, '').replace(',', '.');
+                    } else {
+                        // Otherwise, assume US-style (e.g., "1,234.56" or "1,234").
+                        // Just remove commas as thousands separators.
+                        numStr = numStr.replace(/,/g, '');
                     }
                     
-                    return parseFloat(cleanedString);
+                    return parseFloat(numStr);
                 },
+
 
                 /**
                  * Formats a number for display based on its key.
@@ -170,7 +171,8 @@
                     if (isNaN(number)) return 'N/A';
 
                     if (key === 'btc_price_eur') {
-                        return `€${number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                        // Use en-US locale for comma thousands separators, and don't force decimal places
+                        return `€${number.toLocaleString('en-US')}`;
                     }
                     if (key === 'usd_eur_rate') {
                         return number.toFixed(4);
@@ -377,3 +379,4 @@
     </script>
 </body>
 </html>
+
