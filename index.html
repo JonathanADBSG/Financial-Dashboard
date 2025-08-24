@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Dashboard</title>
-    
+    <link rel="icon" href="icons/icon-192x192.png" type="image/png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#475569">
 
@@ -350,7 +351,7 @@
                  */
                 updateDateDisplays() {
                     const today = new Date();
-                    const dateString = today.toLocaleDateDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
                     const euriborDateElement = document.querySelector('#euribor-12m').previousElementSibling;
                     euriborDateElement.textContent = `Rate as of ${dateString}`;
                 },
@@ -388,3 +389,4 @@
     </script>
 </body>
 </html>
+
