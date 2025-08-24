@@ -74,6 +74,19 @@
             <p id="report-date" class="text-slate-500 mt-2">For the week ending August 22, 2025</p>
         </header>
 
+        <div 
+    id="welcome-banner" 
+    class="relative rounded-xl shadow-md mb-8 overflow-hidden text-center" 
+    style="background-image: url('./images/banner1.jpg'); background-size: cover; background-position: center; min-height: 220px;"
+>
+    <div class="absolute inset-0 bg-slate-900/50"></div>
+
+    <div class="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white" style="min-height: 220px;">
+        <h2 class="text-3xl font-bold">Welcome to Your Financial Dashboard</h2>
+        <p class="mt-2 text-slate-200 max-w-xl">All your key financial metrics, updated weekly.</p>
+    </div>
+</div>
+
         <nav class="flex justify-center items-center bg-white/60 backdrop-blur-sm rounded-full shadow-sm p-2 mb-8 sticky top-4 z-10 max-w-md mx-auto">
             <button id="btn-portfolio" class="nav-btn active flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Portfolio</button>
             <button id="btn-economy" class="nav-btn flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Economy</button>
@@ -415,4 +428,5 @@
         }
     </script>
 </body>
+
 </html>
