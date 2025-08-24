@@ -69,7 +69,26 @@
                 </div>
             </section>
             <section id="bonds-section" class="hidden">
-                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4">Cash Savings Rates</h2><div class="text-center"><div><p class="font-semibold text-slate-500">Wise Savings</p><p id="wise-interest-rate" class="text-2xl font-bold text-slate-700">...</p><p class="text-xs text-slate-400">(7-day yield)</p></div></div></div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
+    <h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Cash Savings Rates</h2>
+    <div class="flex flex-col sm:flex-row justify-around items-center gap-6 sm:gap-4 text-center">
+        <div>
+            <p class="font-semibold text-slate-500">Wise Savings</p>
+            <p id="wise-interest-rate" class="text-2xl font-bold text-slate-700">...</p>
+            <p class="text-xs text-slate-400">(7-day yield)</p>
+        </div>
+        <div>
+            <p class="font-semibold text-slate-500">ING Savings</p>
+            <p id="ing-interest-rate" class="text-2xl font-bold text-slate-700">...</p>
+            <p class="text-xs text-slate-400">(Annual Rate)</p>
+        </div>
+        <div>
+            <p class="font-semibold text-slate-500">Revolut Savings</p>
+            <p id="revolut-interest-rate" class="text-2xl font-bold text-slate-700">...</p>
+            <p class="text-xs text-slate-400">(Annual Rate)</p>
+        </div>
+    </div>
+</div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
                     <h2 class="text-xl font-bold text-slate-900 mb-4">Bond ETF Performance</h2>
                     <div class="flex justify-center flex-wrap gap-2 mb-6"><button class="bond-chart-btn active bg-slate-600 text-white py-2 px-4 rounded-full text-sm font-semibold" data-metric="interestRate">Interest Rate</button><button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return1Y">1-Year Return</button><button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return3Y">3-Year Return</button><button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return5Y">5-Year Return</button></div>
@@ -214,7 +233,8 @@
                         'btc-ytd': 'btc_ytd', 'btc-price': 'btc_price_eur', 'usd-eur-rate': 'usd_eur_rate',
                         'usd-eur-ytd': 'usd_eur_ytd', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
                         'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m',
-                        'wise-interest-rate': 'wise_interest_rate'
+                        'wise-interest-rate': 'wise_interest_rate','ing-interest-rate': 'ING_interest_rate',
+                        'revolut-interest-rate': 'Revolut_interest_rate'
                     };
 
                     for (const [elementId, dataKey] of Object.entries(kpiMapping)) {
@@ -429,5 +449,6 @@
     </script>
 </body>
 </html>
+
 
 
