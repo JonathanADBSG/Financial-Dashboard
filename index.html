@@ -1,3 +1,12 @@
+Of course. Here is the complete, corrected, and final version of your `index.html` file.
+
+This code incorporates all the features we've discussed: the PWA manifest, the service worker, the restored header, and the banner with the background image, all placed within the correct HTML structure.
+
+You can replace the entire content of your `index.html` file with the code below.
+
+-----
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -67,17 +77,24 @@
             <p class="mt-2 text-slate-600 font-semibold">Loading live data...</p>
         </div>
     </div>
-    
-    id="welcome-banner" 
-    class="relative rounded-xl shadow-md mb-8 overflow-hidden text-center" 
-    style="background-image: url('./images/banner2.jpg'); background-size: cover; background-position: center; min-height: 220px;"
->
-    <div class="absolute inset-0 bg-slate-900/50"></div>
 
-    <div class="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white" style="min-height: 220px;">
-        <h2 class="text-3xl font-bold">Financial Dashboard</h2>
-    </div>
-</div>
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Weekly Financial Report</h1>
+            <p id="report-date" class="text-slate-500 mt-2">For the week ending August 24, 2025</p>
+        </header>
+
+        <div 
+            id="welcome-banner" 
+            class="relative rounded-xl shadow-md mb-8 overflow-hidden text-center" 
+            style="background-image: url('./images/banner2.jpg'); background-size: cover; background-position: center; min-height: 220px;"
+        >
+            <div class="absolute inset-0 bg-slate-900/50"></div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white" style="min-height: 220px;">
+                <h2 class="text-3xl font-bold">Financial Dashboard</h2>
+            </div>
+        </div>
 
         <nav class="flex justify-center items-center bg-white/60 backdrop-blur-sm rounded-full shadow-sm p-2 mb-8 sticky top-4 z-10 max-w-md mx-auto">
             <button id="btn-portfolio" class="nav-btn active flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Portfolio</button>
@@ -144,7 +161,7 @@
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
                         <h3 class="font-bold text-lg text-slate-900 mb-3">Euribor (12-Month)</h3>
-                        <p class="text-sm text-slate-500">Rate as of Aug 22, 2025</p>
+                        <p class="text-sm text-slate-500">Rate as of Aug 24, 2025</p>
                         <p id="euribor-12m" class="text-4xl font-bold text-slate-700 mt-2">...</p>
                     </div>
                 </div>
@@ -189,6 +206,7 @@
     </div>
 
     <script>
+        // Data source from Google Sheets
         const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvNBIshbQTCJHdH6Ulh7eZd7Mpxi5hog4iWbhS84Sd5vRQN8Mu4PTxDAXNTfKN6AGR2MllCFnehxKU/pub?gid=0&single=true&output=csv';
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -216,9 +234,8 @@
             }
 
             function formatValue(key, value) {
-                if (value === undefined || value === null || value.trim() === '') {
-                    return 'N/A';
-                }
+                if (value === undefined || value === null || value.trim() === '') return 'N/A';
+                
                 const isPercentage = !['btc_price_eur', 'usd_eur_rate'].includes(key);
                 const number = cleanValue(value);
                 
@@ -237,35 +254,27 @@
             async function initDashboard() {
                 const reportDateElement = document.getElementById('report-date');
                 const today = new Date();
-                const dayOfWeek = today.getDay(); 
-                const daysToSubtract = (dayOfWeek + 2) % 7;
+                const dayOfWeek = today.getDay();
+                const daysToLastFriday = (dayOfWeek + 2) % 7;
                 const lastFriday = new Date();
-                lastFriday.setDate(today.getDate() - daysToSubtract);
-                const formattedDate = lastFriday.toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'long', day: 'numeric'
-                });
-                reportDateElement.textContent = `For the week ending ${formattedDate}`;
+                lastFriday.setDate(today.getDate() - daysToLastFriday);
+                reportDateElement.textContent = `For the week ending ${lastFriday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
 
-                if (GOOGLE_SHEET_CSV_URL === 'PASTE_YOUR_URL_HERE') {
-                    document.getElementById('loading').innerHTML = '<p class="text-red-600 font-semibold">Error: Please paste your Google Sheet URL into the HTML file.</p>';
-                    return;
-                }
+                // Update dynamic date fields
+                document.querySelector('#euribor-12m').previousElementSibling.textContent = `Rate as of ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
 
                 try {
                     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`;
                     const response = await fetch(proxyUrl);
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.statusText}`);
-                    }
+                    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+                    
                     const csvText = await response.text();
                     const data = parseCSV(csvText);
                     
                     updateUI(data);
                     
                     document.getElementById('loading').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('loading').style.display = 'none';
-                    }, 300);
+                    setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 300);
 
                 } catch (error) {
                     console.error('Failed to fetch or parse data:', error);
@@ -339,7 +348,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' },
+                        legend: { display: false },
                         tooltip: { callbacks: { label: (c) => `${c.dataset.label || ''}: ${c.parsed.y}%` } },
                         annotation: {
                             annotations: {
@@ -370,15 +379,14 @@
                     options: bondChartOptions
                 });
 
-                const bondChartButtons = document.querySelectorAll('.bond-chart-btn');
-                bondChartButtons.forEach(button => {
+                document.querySelectorAll('.bond-chart-btn').forEach(button => {
                     button.addEventListener('click', () => {
                         const metric = button.dataset.metric;
                         const metricData = bondsData.metrics[metric];
                         bondsChart.data.datasets[0].label = metricData.label;
                         bondsChart.data.datasets[0].data = metricData.data;
                         bondsChart.update();
-                        bondChartButtons.forEach(btn => {
+                        document.querySelectorAll('.bond-chart-btn').forEach(btn => {
                             btn.classList.remove('active', 'bg-slate-600', 'text-white');
                             btn.classList.add('bg-slate-200', 'text-slate-700');
                         });
@@ -388,14 +396,13 @@
                 });
             }
 
-            const navButtons = document.querySelectorAll('.nav-btn');
-            const sections = document.querySelectorAll('main > section');
-            navButtons.forEach(button => {
+            // Tab navigation logic
+            document.querySelectorAll('.nav-btn').forEach(button => {
                 button.addEventListener('click', () => {
-                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     const targetId = button.id.replace('btn-', '') + '-section';
-                    sections.forEach(section => {
+                    document.querySelectorAll('main > section').forEach(section => {
                         section.id === targetId ? section.classList.remove('hidden') : section.classList.add('hidden');
                     });
                 });
@@ -408,7 +415,6 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Use a relative path for the service worker
                 navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
@@ -420,6 +426,5 @@
         }
     </script>
 </body>
-
 </html>
-
+```
