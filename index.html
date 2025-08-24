@@ -239,8 +239,7 @@
                 document.querySelector('#euribor-12m').previousElementSibling.textContent = `Rate as of ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
 
                 try {
-                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`;
-                    const response = await fetch(proxyUrl);
+                    const response = await fetch(GOOGLE_SHEET_CSV_URL);
                     if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
                     
                     const csvText = await response.text();
@@ -402,4 +401,5 @@
     </script>
 </body>
 </html>
+
 
