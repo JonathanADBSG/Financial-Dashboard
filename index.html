@@ -1,3 +1,30 @@
+Of course. We can remove that text and adjust the image. The "zoomed-in" look is a normal effect of the CSS property used to make the banner responsive, but we can adjust it to show a better portion of your image.
+
+Here’s a breakdown of the fix and the updated code.
+
+-----
+
+### \#\# Fixing the Banner Image
+
+The banner uses the CSS property `background-size: cover`. This tells the browser to ensure the image always fills the entire banner area, which can crop the edges and create a "zoomed-in" feeling, especially on certain screen sizes.
+
+The best way to fix this is not to change the `size` property, but to change the **`background-position`**. This lets you control **which part of the image stays visible**. By default, it's centered. We can tell it to favor the upper portion of the image instead.
+
+We will change `background-position: center` to **`background-position: center 25%`**. This keeps the image centered horizontally but shifts the vertical focus toward the top. You can experiment with this value (e.g., `center 10%` to show more of the top, or `center 50%` to re-center it).
+
+-----
+
+### \#\# Your Updated `index.html` File
+
+To make it easy, here is the complete `index.html` file with all the necessary changes. I have:
+
+1.  **Removed the `<h1>` and `<p>` tags** from the banner.
+2.  **Removed the corresponding JavaScript** that tried to write the date, which was causing an error.
+3.  **Updated the banner's inline style** to adjust the background image position.
+
+You can replace the entire content of your `index.html` file with this code.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,14 +101,12 @@
         <div 
             id="welcome-banner" 
             class="relative rounded-xl shadow-md mb-8 overflow-hidden text-center" 
-            style="background-image: url('./images/banner1.jpg'); background-size: cover; background-position: center; min-height: 200px;"
+            style="background-image: url('./images/banner1.jpg'); background-size: cover; background-position: center 25%; min-height: 200px;"
         >
             <div class="absolute inset-0 bg-slate-900/50"></div>
-            <div class="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white" style="min-height: 200px;">
-                <h1 class="text-4xl font-bold">Financial Dashboard</h1>
-                <p id="report-date" class="mt-2 text-slate-200"></p>
-            </div>
+            <div class="relative z-10 h-full" style="min-height: 200px;"></div>
         </div>
+
         <nav class="flex justify-center items-center bg-white/60 backdrop-blur-sm rounded-full shadow-sm p-2 mb-8 sticky top-4 z-10 max-w-md mx-auto">
             <button id="btn-portfolio" class="nav-btn active flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Portfolio</button>
             <button id="btn-economy" class="nav-btn flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Economy</button>
@@ -238,14 +263,10 @@
             }
 
             async function initDashboard() {
-                // This code no longer causes an error because the 'report-date' element exists in the new banner.
-                const reportDateElement = document.getElementById('report-date');
+                // ## START OF JAVASCRIPT CHANGE ##
+                // The code that tried to find and update the 'report-date' element has been removed.
                 const today = new Date();
-                const dayOfWeek = today.getDay();
-                const daysToLastFriday = (dayOfWeek + 2) % 7;
-                const lastFriday = new Date();
-                lastFriday.setDate(today.getDate() - daysToLastFriday);
-                reportDateElement.textContent = `For the week ending ${lastFriday.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                // ## END OF JAVASCRIPT CHANGE ##
 
                 // Update dynamic date fields
                 document.querySelector('#euribor-12m').previousElementSibling.textContent = `Rate as of ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
@@ -414,3 +435,4 @@
     </script>
 </body>
 </html>
+```
