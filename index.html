@@ -205,10 +205,31 @@
                 return data;
             }
 
-            function cleanValue(value) {
-                if (typeof value !== 'string' || value.trim() === '' || value.trim().toLowerCase() === 'n/a') return NaN;
-                const cleanedString = value.replace(/"/g, '').replace('%', '').replace('€', '').replace(',', '.').trim();
-                return parseFloat(cleanedString);
+            // This is the updated, robust function
+function cleanValue(value) {
+    if (typeof value !== 'string' || value.trim() === '' || value.trim().toLowerCase() === 'n/a') return NaN;
+
+    // This new logic handles both US-style ("1,234.56") and EU-style ("1.234,56") numbers.
+    const hasComma = value.includes(',');
+    const hasPeriod = value.includes('.');
+    let cleanedString = value.replace(/"/g, '').replace('€', '').replace('%', '').trim();
+
+    // If the number has both, assume the last one is the decimal separator.
+    if (hasComma && hasPeriod) {
+        if (value.lastIndexOf(',') > value.lastIndexOf('.')) {
+            // EU style: "1.234,56" -> remove periods, replace comma with period -> "1234.56"
+            cleanedString = cleanedString.replace(/\./g, '').replace(',', '.');
+        } else {
+            // US style: "1,234.56" -> remove commas -> "1234.56"
+            cleanedString = cleanedString.replace(/,/g, '');
+        }
+    } else if (hasComma) {
+        // Only has a comma, assume it's a decimal separator (EU style)
+        cleanedString = cleanedString.replace(',', '.');
+    }
+
+    return parseFloat(cleanedString);
+}
             }
 
             function formatValue(key, value) {
@@ -401,5 +422,6 @@
     </script>
 </body>
 </html>
+
 
 
