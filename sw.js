@@ -1,58 +1,59 @@
-// 1. Update the cache name to a new version
-const CACHE_NAME = 'financial-report-v4';
-
-// List the files to be cached. This is the "app shell".
-const urlsToCache = [
+const CACHE_NAME = 'financial-report-v5';
+const APP_SHELL_URLS = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './icons/icon-192x192.png',
+  './icons/icon-512x512.png'
 ];
+const DATA_URL = 'https://docs.google.com/spreadsheets/d/e/';
 
-// Installation
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-      .then(() => {
-        // 2. Force the new service worker to become active immediately
-        return self.skipWaiting();
-      })
+      .then(cache => cache.addAll(APP_SHELL_URLS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activation
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
-            // If a cache's name is not our current one, delete it.
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
-      ).then(() => {
-        // 3. Take control of all open tabs immediately
-        return self.clients.claim();
-      });
+      ).then(() => self.clients.claim());
     })
   );
 });
 
-// Fetch (Cache-First Strategy)
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // If the asset is in the cache, return it. Otherwise, fetch from network.
-        return response || fetch(event.request);
-      }
-    )
-  );
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // For Google Sheets data, use a stale-while-revalidate strategy.
+  if (url.href.startsWith(DATA_URL)) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then(cache => {
+        return cache.match(request).then(cachedResponse => {
+          const fetchPromise = fetch(request).then(networkResponse => {
+            cache.put(request, networkResponse.clone());
+            return networkResponse;
+          });
+          // Return cached data immediately, then update the cache in the background.
+          return cachedResponse || fetchPromise;
+        });
+      })
+    );
+  } else {
+    // For all other requests (the app shell), use a cache-first strategy.
+    event.respondWith(
+      caches.match(request).then(response => {
+        return response || fetch(request);
+      })
+    );
+  }
 });
-
-
