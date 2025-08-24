@@ -12,49 +12,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f7f4;
-        }
-        .nav-btn {
-            transition: all 0.3s ease;
-        }
-        .nav-btn.active {
-            background-color: #475569;
-            color: #ffffff;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 40vh;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(248, 247, 244, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.3s ease;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8f7f4; }
+        .nav-btn { transition: all 0.3s ease; }
+        .nav-btn.active { background-color: #475569; color: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 300px; max-height: 40vh; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(248, 247, 244, 0.8); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.3s ease; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -70,7 +37,6 @@
     </div>
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-
         <header class="text-center bg-slate-800 text-white p-10 rounded-xl shadow-md mb-8">
             <h1 class="text-4xl md:text-5xl font-bold">Financial Dashboard</h1>
         </header>
@@ -79,104 +45,33 @@
             <button id="btn-economy" class="nav-btn flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Economy</button>
             <button id="btn-bonds" class="nav-btn flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Cash & Bonds</button>
         </nav>
-
         <main>
             <section id="portfolio-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-semibold text-slate-500">VTI (YTD)</h3>
-                        <p id="vti-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-semibold text-slate-500">VWRL (YTD)</h3>
-                        <p id="vwrl-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-semibold text-slate-500">ERNE (YTD)</h3>
-                        <p id="erne-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-semibold text-slate-500">Bitcoin (YTD)</h3>
-                        <p id="btc-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p>
-                        <p id="btc-price" class="text-sm text-slate-500 mt-1">...</p>
-                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VTI (YTD)</h3><p id="vti-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VWRL (YTD)</h3><p id="vwrl-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">ERNE (YTD)</h3><p id="erne-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">Bitcoin (YTD)</h3><p id="btc-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p><p id="btc-price" class="text-sm text-slate-500 mt-1">...</p></div>
                 </div>
-                
-                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
-                    <h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Portfolio YTD Performance Comparison</h2>
-                     <div class="chart-container">
-                        <canvas id="portfolioChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                    <h3 class="font-semibold text-slate-500 text-center">Currency Snapshot: USD to EUR</h3>
-                    <p id="usd-eur-rate" class="text-4xl font-bold mt-2 text-center text-slate-700">...</p>
-                    <p id="usd-eur-ytd" class="text-lg text-center font-semibold mt-1 text-red-500">...</p>
-                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Portfolio YTD Performance Comparison</h2><div class="chart-container"><canvas id="portfolioChart"></canvas></div></div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500 text-center">Currency Snapshot: USD to EUR</h3><p id="usd-eur-rate" class="text-4xl font-bold mt-2 text-center text-slate-700">...</p><p id="usd-eur-ytd" class="text-lg text-center font-semibold mt-1 text-red-500">...</p></div>
             </section>
-
             <section id="economy-section" class="hidden">
-                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
-                    <h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Rate Comparison (Annual)</h2>
-                     <div class="chart-container">
-                        <canvas id="inflationChart"></canvas>
-                    </div>
-                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Rate Comparison (Annual)</h2><div class="chart-container"><canvas id="inflationChart"></canvas></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-bold text-lg text-slate-900 mb-3">Spain Mortgage Rates</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <p class="text-sm text-slate-500">Official Reference Rate (12m Euribor, July)</p>
-                                <p id="es-mortgage-official-ref" class="text-2xl font-semibold text-slate-700">...</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-slate-500">Average mortgage rate (June 2025)</p>
-                                <p id="es-mortgage-avg" class="text-2xl font-semibold text-slate-700">...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-bold text-lg text-slate-900 mb-3">Euribor (12-Month)</h3>
-                        <p class="text-sm text-slate-500">Rate as of Aug 24, 2025</p>
-                        <p id="euribor-12m" class="text-4xl font-bold text-slate-700 mt-2">...</p>
-                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-bold text-lg text-slate-900 mb-3">Spain Mortgage Rates</h3><div class="space-y-3"><div><p class="text-sm text-slate-500">Official Reference Rate (12m Euribor, July)</p><p id="es-mortgage-official-ref" class="text-2xl font-semibold text-slate-700">...</p></div><div><p class="text-sm text-slate-500">Average mortgage rate (June 2025)</p><p id="es-mortgage-avg" class="text-2xl font-semibold text-slate-700">...</p></div></div></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-bold text-lg text-slate-900 mb-3">Euribor (12-Month)</h3><p class="text-sm text-slate-500">Rate as of Aug 24, 2025</p><p id="euribor-12m" class="text-4xl font-bold text-slate-700 mt-2">...</p></div>
                 </div>
             </section>
-
             <section id="bonds-section" class="hidden">
-                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
-                    <h2 class="text-xl font-bold text-slate-900 mb-4">Cash Savings Rates</h2>
-                    <div class="text-center">
-                        <div>
-                            <p class="font-semibold text-slate-500">Wise Savings</p>
-                            <p id="wise-interest-rate" class="text-2xl font-bold text-slate-700">...</p>
-                            <p class="text-xs text-slate-400">(7-day yield)</p>
-                        </div>
-                    </div>
-                </div>
-
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4">Cash Savings Rates</h2><div class="text-center"><div><p class="font-semibold text-slate-500">Wise Savings</p><p id="wise-interest-rate" class="text-2xl font-bold text-slate-700">...</p><p class="text-xs text-slate-400">(7-day yield)</p></div></div></div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
                     <h2 class="text-xl font-bold text-slate-900 mb-4">Bond ETF Performance</h2>
-                    <div class="flex justify-center flex-wrap gap-2 mb-6">
-                        <button class="bond-chart-btn active bg-slate-600 text-white py-2 px-4 rounded-full text-sm font-semibold" data-metric="interestRate">Interest Rate</button>
-                        <button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return1Y">1-Year Return</button>
-                        <button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return3Y">3-Year Return</button>
-                        <button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return5Y">5-Year Return</button>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="bondsChart"></canvas>
-                    </div>
+                    <div class="flex justify-center flex-wrap gap-2 mb-6"><button class="bond-chart-btn active bg-slate-600 text-white py-2 px-4 rounded-full text-sm font-semibold" data-metric="interestRate">Interest Rate</button><button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return1Y">1-Year Return</button><button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return3Y">3-Year Return</button><button class="bond-chart-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="return5Y">5-Year Return</button></div>
+                    <div class="chart-container"><canvas id="bondsChart"></canvas></div>
                      <div class="flex justify-center items-center gap-6 mt-4 text-sm text-slate-600">
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-0.5 bg-red-500"></div>
-                            <span id="eu-inflation-legend">EU Inflation (...)</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-0.5 bg-blue-500"></div>
-                            <span id="es-inflation-legend">Spain Inflation (...)</span>
-                        </div>
+                        <div class="flex items-center gap-2"><div class="w-4 h-0.5 bg-red-500"></div><span id="eu-inflation-legend">EU Inflation (...)</span></div>
+                        <div class="flex items-center gap-2"><div class="w-4 h-0.5 bg-blue-500"></div><span id="es-inflation-legend">Spain Inflation (...)</span></div>
                     </div>
                 </div>
             </section>
@@ -184,226 +79,290 @@
     </div>
 
     <script>
-        // Data source from Google Sheets
-        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvNBIshbQTCJHdH6Ulh7eZd7Mpxi5hog4iWbhS84Sd5vRQN8Mu4PTxDAXNTfKN6AGR2MllCFnehxKU/pub?gid=0&single=true&output=csv';
-
         document.addEventListener('DOMContentLoaded', () => {
-            
-            function parseCSV(text) {
-                const data = {};
-                const rows = text.split(/\r?\n/).filter(row => row.trim() !== '');
-                const headers = ["Portfolio", "Economy", "Cash & Bonds"];
-                const cleanedRows = rows.filter(row => !headers.includes(row.trim()));
+            const App = {
+                GOOGLE_SHEET_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvNBIshbQTCJHdH6Ulh7eZd7Mpxi5hog4iWbhS84Sd5vRQN8Mu4PTxDAXNTfKN6AGR2MllCFnehxKU/pub?gid=0&single=true&output=csv',
+                data: {},
+                charts: {},
 
-                for (let i = 0; i < cleanedRows.length; i += 2) {
-                    if (cleanedRows[i] && cleanedRows[i + 1]) {
-                        const key = cleanedRows[i].trim();
-                        const value = cleanedRows[i + 1].trim().replace(/"/g, '');
-                        data[key] = value;
+                /**
+                 * Main initialization function. Fetches and processes data, then builds the UI.
+                 */
+                async init() {
+                    try {
+                        const csvText = await this.fetchData();
+                        this.data = this.parseCSV(csvText);
+                        
+                        this.updateDateDisplays();
+                        this.updateKpis();
+                        this.createCharts();
+                        this.setupEventListeners();
+
+                        this.hideLoadingOverlay();
+                    } catch (error) {
+                        console.error('Initialization failed:', error);
+                        this.showErrorState(error);
                     }
-                }
-                return data;
-            }
+                },
 
-            // This is the updated, robust function
-function cleanValue(value) {
-    if (typeof value !== 'string' || value.trim() === '' || value.trim().toLowerCase() === 'n/a') return NaN;
-
-    // This new logic handles both US-style ("1,234.56") and EU-style ("1.234,56") numbers.
-    const hasComma = value.includes(',');
-    const hasPeriod = value.includes('.');
-    let cleanedString = value.replace(/"/g, '').replace('€', '').replace('%', '').trim();
-
-    // If the number has both, assume the last one is the decimal separator.
-    if (hasComma && hasPeriod) {
-        if (value.lastIndexOf(',') > value.lastIndexOf('.')) {
-            // EU style: "1.234,56" -> remove periods, replace comma with period -> "1234.56"
-            cleanedString = cleanedString.replace(/\./g, '').replace(',', '.');
-        } else {
-            // US style: "1,234.56" -> remove commas -> "1234.56"
-            cleanedString = cleanedString.replace(/,/g, '');
-        }
-    } else if (hasComma) {
-        // Only has a comma, assume it's a decimal separator (EU style)
-        cleanedString = cleanedString.replace(',', '.');
-    }
-
-    return parseFloat(cleanedString);
-}
-            }
-
-            function formatValue(key, value) {
-                if (value === undefined || value === null || value.trim() === '') return 'N/A';
-                
-                const isPercentage = !['btc_price_eur', 'usd_eur_rate'].includes(key);
-                const number = cleanValue(value);
-                
-                if (isNaN(number)) return 'N/A';
-
-                if (isPercentage) {
-                    const sign = number > 0 ? '+' : '';
-                    return `${sign}${number.toFixed(2)}%`;
-                }
-                if (key === 'btc_price_eur') {
-                    return `€${number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                }
-                return number.toFixed(4);
-            }
-
-            async function initDashboard() {
-                // ## START OF JAVASCRIPT CHANGE ##
-                // The dynamic date logic for the subtitle has been removed.
-                const today = new Date();
-                // ## END OF JAVASCRIPT CHANGE ##
-
-                // Update dynamic date fields elsewhere on the page
-                document.querySelector('#euribor-12m').previousElementSibling.textContent = `Rate as of ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
-
-                try {
-                    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                /**
+                 * Fetches CSV data from the Google Sheet.
+                 * @returns {Promise<string>} The raw CSV text.
+                 */
+                async fetchData() {
+                    const response = await fetch(this.GOOGLE_SHEET_URL);
                     if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-                    
-                    const csvText = await response.text();
-                    const data = parseCSV(csvText);
-                    
-                    updateUI(data);
-                    
-                    document.getElementById('loading').style.opacity = '0';
-                    setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 300);
+                    return response.text();
+                },
 
-                } catch (error) {
-                    console.error('Failed to fetch or parse data:', error);
-                    document.getElementById('loading').innerHTML = '<p class="text-red-600 font-semibold text-center">Failed to load data.<br>Check your Google Sheet URL and its "Publish to web" settings.</p>';
-                }
-            }
+                /**
+                 * Parses the specific key-value CSV format from the sheet.
+                 * @param {string} text - The raw CSV string.
+                 * @returns {object} A key-value map of the data.
+                 */
+                parseCSV(text) {
+                    const data = {};
+                    const rows = text.split(/\r?\n/).filter(row => row.trim() !== '');
+                    const headers = ["Portfolio", "Economy", "Cash & Bonds"];
+                    const cleanedRows = rows.filter(row => !headers.includes(row.trim()));
 
-            function updateUI(data) {
-                document.getElementById('vti-ytd').textContent = formatValue('vti_ytd', data.vti_ytd);
-                document.getElementById('vwrl-ytd').textContent = formatValue('vwrl_ytd', data.vwrl_ytd);
-                document.getElementById('erne-ytd').textContent = formatValue('erne_ytd', data.erne_ytd);
-                document.getElementById('btc-ytd').textContent = formatValue('btc_ytd', data.btc_ytd);
-                document.getElementById('btc-price').textContent = `Current Price: ${formatValue('btc_price_eur', data.btc_price_eur)}`;
-                document.getElementById('usd-eur-rate').textContent = formatValue('usd_eur_rate', data.usd_eur_rate);
-                document.getElementById('usd-eur-ytd').textContent = `YTD: ${formatValue('usd_eur_ytd', data.usd_eur_ytd)}`;
-                
-                document.getElementById('es-mortgage-official-ref').textContent = formatValue('es_mortgage_official_ref', data.es_mortgage_official_ref);
-                document.getElementById('es-mortgage-avg').textContent = formatValue('es_mortgage_avg', data.es_mortgage_avg);
-                document.getElementById('euribor-12m').textContent = formatValue('euribor_12m', data.euribor_12m);
-
-                document.getElementById('wise-interest-rate').textContent = formatValue('wise_interest_rate', data.wise_interest_rate);
-
-                const euInflation = cleanValue(data.eu_inflation_hicp);
-                const esInflation = cleanValue(data.es_inflation_hicp);
-                document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${isNaN(euInflation) ? 'N/A' : euInflation.toFixed(1) + '%'})`;
-                document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${isNaN(esInflation) ? 'N/A' : esInflation.toFixed(1) + '%'})`;
-
-                const portfolioData = {
-                    labels: ['VTI', 'VWRL', 'ERNE', 'Bitcoin'],
-                    datasets: [{
-                        label: 'YTD Performance (%)',
-                        data: [
-                            cleanValue(data.vti_ytd) || 0,
-                            cleanValue(data.vwrl_ytd) || 0,
-                            cleanValue(data.erne_ytd) || 0,
-                            cleanValue(data.btc_ytd) || 0
-                        ],
-                        backgroundColor: ['rgba(22, 163, 74, 0.6)', 'rgba(5, 150, 105, 0.6)', 'rgba(13, 148, 136, 0.6)', 'rgba(15, 118, 110, 0.6)'],
-                        borderColor: ['rgba(22, 163, 74, 1)', 'rgba(5, 150, 105, 1)', 'rgba(13, 148, 136, 1)', 'rgba(15, 118, 110, 1)'],
-                        borderWidth: 1
-                    }]
-                };
-
-                const inflationData = {
-                    labels: ['Annual Inflation Rate (%)'],
-                    datasets: [
-                        { label: 'US (CPI)', data: [cleanValue(data.us_inflation_cpi) || 0], backgroundColor: 'rgba(71, 85, 105, 0.7)', borderColor: 'rgba(71, 85, 105, 1)', borderWidth: 1 },
-                        { label: 'Euro Area (HICP)', data: [euInflation || 0], backgroundColor: 'rgba(100, 116, 139, 0.7)', borderColor: 'rgba(100, 116, 139, 1)', borderWidth: 1 },
-                        { label: 'Spain (HICP)', data: [esInflation || 0], backgroundColor: 'rgba(148, 163, 184, 0.7)', borderColor: 'rgba(148, 163, 184, 1)', borderWidth: 1 }
-                    ]
-                };
-
-                const bondsData = {
-                    labels: ['ERNE', 'EGV3', 'IEGE', 'IBGX', 'IE15'],
-                    metrics: {
-                        interestRate: { label: 'Interest Rate (%)', data: [cleanValue(data.erne_interest_rate) || 0, cleanValue(data.egv3_interest_rate) || 0, cleanValue(data.iege_interest_rate) || 0, cleanValue(data.ibgx_interest_rate) || 0, cleanValue(data.ie15_interest_rate) || 0] },
-                        return1Y: { label: '1-Year Return (%)', data: [cleanValue(data.erne_return_1y) || 0, cleanValue(data.egv3_return_1y) || 0, cleanValue(data.iege_return_1y) || 0, cleanValue(data.ibgx_return_1y) || 0, cleanValue(data.ie15_return_1y) || 0] },
-                        return3Y: { label: '3-Year Return (%)', data: [cleanValue(data.erne_return_3y) || 0, cleanValue(data.egv3_return_3y) || 0, cleanValue(data.iege_return_3y) || 0, cleanValue(data.ibgx_return_3y) || 0, cleanValue(data.ie15_return_3y) || 0] },
-                        return5Y: { label: '5-Year Return (%)', data: [cleanValue(data.erne_return_5y) || 0, cleanValue(data.egv3_return_5y) || 0, cleanValue(data.iege_return_5y) || 0, cleanValue(data.ibgx_return_5y) || 0, cleanValue(data.ie15_return_5y) || 0] }
-                    }
-                };
-
-                const chartOptions = {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: (c) => `${c.dataset.label || ''}: ${c.parsed.y}%` } } },
-                    scales: { y: { beginAtZero: true, ticks: { callback: (v) => `${v}%` } } }
-                };
-
-                const bondChartOptions = {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { callbacks: { label: (c) => `${c.dataset.label || ''}: ${c.parsed.y}%` } },
-                        annotation: {
-                            annotations: {
-                                euInflationLine: { type: 'line', yMin: euInflation, yMax: euInflation, borderColor: 'rgb(239, 68, 68)', borderWidth: 2, borderDash: [6, 6] },
-                                spainInflationLine: { type: 'line', yMin: esInflation, yMax: esInflation, borderColor: 'rgb(59, 130, 246)', borderWidth: 2, borderDash: [6, 6] }
-                            }
+                    for (let i = 0; i < cleanedRows.length; i += 2) {
+                        if (cleanedRows[i] && cleanedRows[i + 1]) {
+                            const key = cleanedRows[i].trim();
+                            const value = cleanedRows[i + 1].trim().replace(/"/g, '');
+                            data[key] = value;
                         }
-                    },
-                    scales: { y: { beginAtZero: false, grace: '10%', ticks: { callback: (v) => `${v}%` } } }
-                };
+                    }
+                    return data;
+                },
 
-                new Chart(document.getElementById('portfolioChart').getContext('2d'), { type: 'bar', data: portfolioData, options: chartOptions });
-                new Chart(document.getElementById('inflationChart').getContext('2d'), { type: 'bar', data: inflationData, options: chartOptions });
+                /**
+                 * Cleans a string value and converts it to a number. Handles various formats.
+                 * @param {string} value - The raw string value.
+                 * @returns {number} The parsed number, or NaN if invalid.
+                 */
+                cleanValue(value) {
+                    if (typeof value !== 'string' || !value.trim() || value.trim().toLowerCase() === 'n/a') return NaN;
+                    
+                    const hasComma = value.includes(',');
+                    const hasPeriod = value.includes('.');
+                    let cleanedString = value.replace(/"/g, '').replace(/€|%/g, '').trim();
 
-                const bondsCtx = document.getElementById('bondsChart').getContext('2d');
-                let bondsChart = new Chart(bondsCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: bondsData.labels,
-                        datasets: [{
-                            label: bondsData.metrics.interestRate.label,
-                            data: bondsData.metrics.interestRate.data,
-                            backgroundColor: 'rgba(71, 85, 105, 0.7)',
-                            borderColor: 'rgba(71, 85, 105, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: bondChartOptions
-                });
+                    if (hasComma && hasPeriod) {
+                        cleanedString = value.lastIndexOf(',') > value.lastIndexOf('.')
+                            ? cleanedString.replace(/\./g, '').replace(',', '.') // EU style: 1.234,56
+                            : cleanedString.replace(/,/g, ''); // US style: 1,234.56
+                    } else if (hasComma) {
+                        cleanedString = cleanedString.replace(',', '.'); // EU style decimal: 1,23
+                    }
+                    
+                    return parseFloat(cleanedString);
+                },
 
-                document.querySelectorAll('.bond-chart-btn').forEach(button => {
-                    button.addEventListener('click', () => {
-                        const metric = button.dataset.metric;
-                        const metricData = bondsData.metrics[metric];
-                        bondsChart.data.datasets[0].label = metricData.label;
-                        bondsChart.data.datasets[0].data = metricData.data;
-                        bondsChart.update();
-                        document.querySelectorAll('.bond-chart-btn').forEach(btn => {
-                            btn.classList.remove('active', 'bg-slate-600', 'text-white');
-                            btn.classList.add('bg-slate-200', 'text-slate-700');
+                /**
+                 * Formats a number for display based on its key.
+                 * @param {string} key - The data key (e.g., 'btc_price_eur').
+                 * @param {string} rawValue - The uncleaned value from the data source.
+                 * @returns {string} The formatted string for display.
+                 */
+                formatValue(key, rawValue) {
+                    const number = this.cleanValue(rawValue);
+                    if (isNaN(number)) return 'N/A';
+
+                    if (key === 'btc_price_eur') {
+                        return `€${number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    }
+                    if (key === 'usd_eur_rate') {
+                        return number.toFixed(4);
+                    }
+                    // Default to percentage format
+                    return `${number > 0 ? '+' : ''}${number.toFixed(2)}%`;
+                },
+
+                /**
+                 * A helper to safely get and clean a numeric data point.
+                 * @param {string} key - The data key.
+                 * @param {number} defaultValue - The value to return if parsing fails.
+                 * @returns {number} The cleaned number or the default value.
+                 */
+                getNumericData(key, defaultValue = 0) {
+                    return this.cleanValue(this.data[key]) || defaultValue;
+                },
+
+                /**
+                 * Updates all the key performance indicators (KPIs) in the dashboard.
+                 */
+                updateKpis() {
+                    const kpiMapping = {
+                        'vti-ytd': 'vti_ytd', 'vwrl-ytd': 'vwrl_ytd', 'erne-ytd': 'erne_ytd',
+                        'btc-ytd': 'btc_ytd', 'btc-price': 'btc_price_eur', 'usd-eur-rate': 'usd_eur_rate',
+                        'usd-eur-ytd': 'usd_eur_ytd', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
+                        'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m',
+                        'wise-interest-rate': 'wise_interest_rate'
+                    };
+
+                    for (const [elementId, dataKey] of Object.entries(kpiMapping)) {
+                        const element = document.getElementById(elementId);
+                        if (element) {
+                            let formattedValue = this.formatValue(dataKey, this.data[dataKey]);
+                            if (elementId === 'btc-price') formattedValue = `Current Price: ${formattedValue}`;
+                            if (elementId === 'usd-eur-ytd') formattedValue = `YTD: ${formattedValue}`;
+                            element.textContent = formattedValue;
+                        }
+                    }
+
+                    const euInflation = this.getNumericData('eu_inflation_hicp', NaN);
+                    const esInflation = this.getNumericData('es_inflation_hicp', NaN);
+                    document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${isNaN(euInflation) ? 'N/A' : euInflation.toFixed(1) + '%'})`;
+                    document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${isNaN(esInflation) ? 'N/A' : esInflation.toFixed(1) + '%'})`;
+                },
+
+                /**
+                 * Initializes all charts with data.
+                 */
+                createCharts() {
+                    this.createPortfolioChart();
+                    this.createInflationChart();
+                    this.createBondsChart();
+                },
+
+                createPortfolioChart() {
+                    const ctx = document.getElementById('portfolioChart').getContext('2d');
+                    this.charts.portfolio = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['VTI', 'VWRL', 'ERNE', 'Bitcoin'],
+                            datasets: [{
+                                label: 'YTD Performance (%)',
+                                data: [
+                                    this.getNumericData('vti_ytd'), this.getNumericData('vwrl_ytd'),
+                                    this.getNumericData('erne_ytd'), this.getNumericData('btc_ytd')
+                                ],
+                                backgroundColor: ['rgba(22, 163, 74, 0.6)', 'rgba(5, 150, 105, 0.6)', 'rgba(13, 148, 136, 0.6)', 'rgba(15, 118, 110, 0.6)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { ticks: { callback: v => `${v}%` } } } }
+                    });
+                },
+                
+                createInflationChart() {
+                    const ctx = document.getElementById('inflationChart').getContext('2d');
+                    this.charts.inflation = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Annual Inflation Rate (%)'],
+                            datasets: [
+                                { label: 'US (CPI)', data: [this.getNumericData('us_inflation_cpi')], backgroundColor: 'rgba(71, 85, 105, 0.7)' },
+                                { label: 'Euro Area (HICP)', data: [this.getNumericData('eu_inflation_hicp')], backgroundColor: 'rgba(100, 116, 139, 0.7)' },
+                                { label: 'Spain (HICP)', data: [this.getNumericData('es_inflation_hicp')], backgroundColor: 'rgba(148, 163, 184, 0.7)' }
+                            ]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { ticks: { callback: v => `${v}%` } } } }
+                    });
+                },
+
+                createBondsChart() {
+                    const bondsData = {
+                        labels: ['ERNE', 'EGV3', 'IEGE', 'IBGX', 'IE15'],
+                        metrics: {
+                            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'egv3_interest_rate', 'iege_interest_rate', 'ibgx_interest_rate', 'ie15_interest_rate'].map(k => this.getNumericData(k))},
+                            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'egv3_return_1y', 'iege_return_1y', 'ibgx_return_1y', 'ie15_return_1y'].map(k => this.getNumericData(k))},
+                            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y', 'egv3_return_3y', 'iege_return_3y', 'ibgx_return_3y', 'ie15_return_3y'].map(k => this.getNumericData(k))},
+                            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y', 'egv3_return_5y', 'iege_return_5y', 'ibgx_return_5y', 'ie15_return_5y'].map(k => this.getNumericData(k))}
+                        }
+                    };
+                    
+                    const euInflation = this.getNumericData('eu_inflation_hicp');
+                    const esInflation = this.getNumericData('es_inflation_hicp');
+
+                    const ctx = document.getElementById('bondsChart').getContext('2d');
+                    this.charts.bonds = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: bondsData.labels,
+                            datasets: [{
+                                label: bondsData.metrics.interestRate.label,
+                                data: bondsData.metrics.interestRate.data,
+                                backgroundColor: 'rgba(71, 85, 105, 0.7)'
+                            }]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                annotation: {
+                                    annotations: {
+                                        euLine: { type: 'line', yMin: euInflation, yMax: euInflation, borderColor: 'rgb(239, 68, 68)', borderWidth: 2, borderDash: [6, 6] },
+                                        esLine: { type: 'line', yMin: esInflation, yMax: esInflation, borderColor: 'rgb(59, 130, 246)', borderWidth: 2, borderDash: [6, 6] }
+                                    }
+                                }
+                            },
+                            scales: { y: { grace: '10%', ticks: { callback: v => `${v}%` } } }
+                        }
+                    });
+
+                    // Add event listener for bond chart buttons
+                    document.querySelectorAll('.bond-chart-btn').forEach(button => {
+                        button.addEventListener('click', () => {
+                            const metric = button.dataset.metric;
+                            const metricData = bondsData.metrics[metric];
+                            this.charts.bonds.data.datasets[0].label = metricData.label;
+                            this.charts.bonds.data.datasets[0].data = metricData.data;
+                            this.charts.bonds.update();
+                            
+                            document.querySelectorAll('.bond-chart-btn').forEach(btn => btn.classList.remove('active', 'bg-slate-600', 'text-white'));
+                            button.classList.add('active', 'bg-slate-600', 'text-white');
                         });
-                        button.classList.add('active', 'bg-slate-600', 'text-white');
-                        button.classList.remove('bg-slate-200', 'text-slate-700');
                     });
-                });
-            }
+                },
 
-            // Tab navigation logic
-            document.querySelectorAll('.nav-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    const targetId = button.id.replace('btn-', '') + '-section';
-                    document.querySelectorAll('main > section').forEach(section => {
-                        section.id === targetId ? section.classList.remove('hidden') : section.classList.add('hidden');
+                /**
+                 * Sets up all general event listeners for the application (e.g., navigation).
+                 */
+                setupEventListeners() {
+                    // Tab navigation logic
+                    document.querySelectorAll('.nav-btn').forEach(button => {
+                        button.addEventListener('click', () => {
+                            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                            button.classList.add('active');
+                            const targetId = `${button.id.replace('btn-', '')}-section`;
+                            document.querySelectorAll('main > section').forEach(section => {
+                                section.classList.toggle('hidden', section.id !== targetId);
+                            });
+                        });
                     });
-                });
-            });
+                },
 
-            initDashboard();
+                /**
+                 * Updates dynamic date elements on the page.
+                 */
+                updateDateDisplays() {
+                    const today = new Date();
+                    const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    const euriborDateElement = document.querySelector('#euribor-12m').previousElementSibling;
+                    euriborDateElement.textContent = `Rate as of ${dateString}`;
+                },
+
+                /**
+                 * Hides the main loading overlay.
+                 */
+                hideLoadingOverlay() {
+                    const loadingEl = document.getElementById('loading');
+                    loadingEl.style.opacity = '0';
+                    setTimeout(() => { loadingEl.style.display = 'none'; }, 300);
+                },
+
+                /**
+                 * Displays an error message in the loading overlay.
+                 */
+                showErrorState() {
+                    const loadingEl = document.getElementById('loading');
+                    loadingEl.innerHTML = '<p class="text-red-600 font-semibold text-center">Failed to load data.<br>Check your Google Sheet URL and its "Publish to web" settings.</p>';
+                }
+            };
+
+            App.init();
         });
     </script>
     
@@ -411,17 +370,10 @@ function cleanValue(value) {
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
+                    .then(reg => console.log('ServiceWorker registration successful:', reg.scope))
+                    .catch(err => console.error('ServiceWorker registration failed:', err));
             });
         }
     </script>
 </body>
 </html>
-
-
-
