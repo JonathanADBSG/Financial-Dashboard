@@ -1,5 +1,5 @@
 // 1. Update the cache name to a new version
-const CACHE_NAME = 'financial-report-v2';
+const CACHE_NAME = 'financial-report-v3';
 
 // List the files to be cached. This is the "app shell".
 const urlsToCache = [
@@ -54,3 +54,4 @@ self.addEventListener('fetch', event => {
     )
   );
 });
+
