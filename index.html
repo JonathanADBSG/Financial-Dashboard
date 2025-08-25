@@ -322,7 +322,7 @@
            
         ],
                         metrics: {
-                            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'egv3_interest_rate', 'iege_interest_rate', 'ibgx_interest_rate', 'ie15_interest_rate'].map(k => this.getNumericData(k))},
+                            interestRate: { label: 'Interest Rate (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
                             return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
                             return3Y: { label: '3-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
                             return5Y: { label: '5-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))}
@@ -456,6 +456,7 @@
     </script>
 </body>
 </html>
+
 
 
 
