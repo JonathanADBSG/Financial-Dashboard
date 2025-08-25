@@ -313,12 +313,19 @@
 
                 createBondsChart() {
                     const bondsData = {
-                        labels: ['ERNE', 'EGV3', 'IEGE', 'IBGX', 'IE15'],
+                        labels: [
+            ['ERNE', 'Ultra Short Corp'],  
+            ['IE15', '1-5Y Cor'],
+            ['IEGE', '0-1y Gov'], 
+            ['EGV3', '1-3Y Gov'], 
+            ['IBGX', '3-5y Gov'], 
+           
+        ],
                         metrics: {
                             interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'egv3_interest_rate', 'iege_interest_rate', 'ibgx_interest_rate', 'ie15_interest_rate'].map(k => this.getNumericData(k))},
-                            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'egv3_return_1y', 'iege_return_1y', 'ibgx_return_1y', 'ie15_return_1y'].map(k => this.getNumericData(k))},
-                            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y', 'egv3_return_3y', 'iege_return_3y', 'ibgx_return_3y', 'ie15_return_3y'].map(k => this.getNumericData(k))},
-                            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y', 'egv3_return_5y', 'iege_return_5y', 'ibgx_return_5y', 'ie15_return_5y'].map(k => this.getNumericData(k))}
+                            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
+                            return3Y: { label: '3-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
+                            return5Y: { label: '5-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))}
                         }
                     };
                     
@@ -449,6 +456,7 @@
     </script>
 </body>
 </html>
+
 
 
 
