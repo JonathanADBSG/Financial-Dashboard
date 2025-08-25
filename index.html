@@ -312,91 +312,84 @@
                 },
 
                 createBondsChart() {
-                    const bondsData = {
-                        labels: [
+    const bondsData = {
+        labels: [
             ['ERNE', 'Ultra Short Corp'],  
             ['IE15', '1-5Y Cor'],
             ['IEGE', '0-1y Gov'], 
             ['EGV3', '1-3Y Gov'], 
             ['IBGX', '3-5y Gov'], 
-           
         ],
-                        metrics: {
-                            interestRate: { label: 'Interest Rate (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
-                            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
-                            return3Y: { label: '3-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
-                            return5Y: { label: '5-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))}
-                        }
-                    };
-                    
-                    const euInflation = this.getNumericData('eu_inflation_hicp');
-                    const esInflation = this.getNumericData('es_inflation_hicp');
+        // --- FIX IS HERE ---
+        // Each 'data' array now has the correct keys and matches the label order above.
+        metrics: {
+            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'ie15_interest_rate', 'iege_interest_rate', 'egv3_interest_rate', 'ibgx_interest_rate'].map(k => this.getNumericData(k))},
+            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
+            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y', 'ie15_return_3y', 'iege_return_3y', 'egv3_return_3y', 'ibgx_return_3y'].map(k => this.getNumericData(k))},
+            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y', 'ie15_return_5y', 'iege_return_5y', 'egv3_return_5y', 'ibgx_return_5y'].map(k => this.getNumericData(k))}
+        }
+    };
+    
+    const euInflation = this.getNumericData('eu_inflation_hicp');
+    const esInflation = this.getNumericData('es_inflation_hicp');
 
-                    const ctx = document.getElementById('bondsChart').getContext('2d');
-                    this.charts.bonds = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: bondsData.labels,
-                            datasets: [{
-                                label: bondsData.metrics.interestRate.label,
-                                data: bondsData.metrics.interestRate.data,
-                                backgroundColor: 'rgba(71, 85, 105, 0.7)'
-                            }]
-                        },
-                        options: {
-                            responsive: true, maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                annotation: {
-                                    annotations: {
-                                        euLine: { type: 'line', yMin: euInflation, yMax: euInflation, borderColor: 'rgb(239, 68, 68)', borderWidth: 2, borderDash: [6, 6] },
-                                        esLine: { type: 'line', yMin: esInflation, yMax: esInflation, borderColor: 'rgb(59, 130, 246)', borderWidth: 2, borderDash: [6, 6] }
-                                    }
-                                }
-                            },
-                            scales: { y: { grace: '10%', ticks: { callback: v => `${v}%` } } }
-                        }
-                    });
+    const ctx = document.getElementById('bondsChart').getContext('2d');
+    this.charts.bonds = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: bondsData.labels,
+            datasets: [{
+                label: bondsData.metrics.interestRate.label,
+                data: bondsData.metrics.interestRate.data,
+                backgroundColor: 'rgba(71, 85, 105, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                annotation: {
+                    annotations: {
+                        euLine: { type: 'line', yMin: euInflation, yMax: euInflation, borderColor: 'rgb(239, 68, 68)', borderWidth: 2, borderDash: [6, 6] },
+                        esLine: { type: 'line', yMin: esInflation, yMax: esInflation, borderColor: 'rgb(59, 130, 246)', borderWidth: 2, borderDash: [6, 6] }
+                    }
+                }
+            },
+            scales: { y: { grace: '10%', ticks: { callback: v => `${v}%` } } }
+        }
+    });
 
-                    // --- Updated Event Listener Logic ---
-                    document.querySelectorAll('.bond-chart-btn').forEach(button => {
-                        button.addEventListener('click', () => {
-                            // 1. Update the bar data (same as before)
-                            const metric = button.dataset.metric;
-                            const metricData = bondsData.metrics[metric];
-                            const chart = this.charts.bonds;
-                            chart.data.datasets[0].label = metricData.label;
-                            chart.data.datasets[0].data = metricData.data;
-                            
-                            // 2. Determine the period in years
-                            let years = 1;
-                            if (metric === 'return3Y') years = 3;
-                            if (metric === 'return5Y') years = 5;
+    document.querySelectorAll('.bond-chart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const metric = button.dataset.metric;
+            const metricData = bondsData.metrics[metric];
+            const chart = this.charts.bonds;
+            chart.data.datasets[0].label = metricData.label;
+            chart.data.datasets[0].data = metricData.data;
+            
+            let years = 1;
+            if (metric === 'return3Y') years = 3;
+            if (metric === 'return5Y') years = 5;
 
-                            // 3. Calculate new inflation values
-                            const newEuInflation = this.calculateCumulativeInflation(euInflation, years);
-                            const newEsInflation = this.calculateCumulativeInflation(esInflation, years);
-                            
-                            // 4. Update the chart annotation lines
-                            const { annotations } = chart.options.plugins.annotation;
-                            annotations.euLine.yMin = newEuInflation;
-                            annotations.euLine.yMax = newEuInflation;
-                            annotations.esLine.yMin = newEsInflation;
-                            annotations.esLine.yMax = newEsInflation;
+            const newEuInflation = this.calculateCumulativeInflation(euInflation, years);
+            const newEsInflation = this.calculateCumulativeInflation(esInflation, years);
+            
+            const { annotations } = chart.options.plugins.annotation;
+            annotations.euLine.yMin = newEuInflation;
+            annotations.euLine.yMax = newEuInflation;
+            annotations.esLine.yMin = newEsInflation;
+            annotations.esLine.yMax = newEsInflation;
 
-                            // 5. Update the legend text
-                            const legendSuffix = years > 1 ? ` (${years}Y Cum.)` : ` (Annual)`;
-                            document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${newEuInflation.toFixed(1)}%${legendSuffix})`;
-                            document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${newEsInflation.toFixed(1)}%${legendSuffix})`;
-                            
-                            // 6. Redraw the chart and update button styles
-                            chart.update();
-                            document.querySelectorAll('.bond-chart-btn').forEach(btn => btn.classList.remove('active', 'bg-slate-600', 'text-white'));
-                            button.classList.add('active', 'bg-slate-600', 'text-white');
-                        });
-                    });
-                },
-
+            const legendSuffix = years > 1 ? ` (${years}Y Cum.)` : ` (Annual)`;
+            document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${newEuInflation.toFixed(1)}%${legendSuffix})`;
+            document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${newEsInflation.toFixed(1)}%${legendSuffix})`;
+            
+            chart.update();
+            document.querySelectorAll('.bond-chart-btn').forEach(btn => btn.classList.remove('active', 'bg-slate-600', 'text-white'));
+            button.classList.add('active', 'bg-slate-600', 'text-white');
+        });
+    });
+}
                 /**
                  * Sets up all general event listeners for the application (e.g., navigation).
                  */
@@ -456,6 +449,7 @@
     </script>
 </body>
 </html>
+
 
 
 
