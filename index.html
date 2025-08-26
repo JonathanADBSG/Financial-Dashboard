@@ -65,8 +65,23 @@
                  <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Rate Comparison (Annual)</h2><div class="chart-container"><canvas id="inflationChart"></canvas></div></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-bold text-lg text-slate-900 mb-3">Spain Mortgage Rates</h3><div class="space-y-3"><div><p class="text-sm text-slate-500">Official Reference Rate (12m Euribor, July)</p><p id="es-mortgage-official-ref" class="text-2xl font-semibold text-slate-700">...</p></div><div><p class="text-sm text-slate-500">Average mortgage rate (June 2025)</p><p id="es-mortgage-avg" class="text-2xl font-semibold text-slate-700">...</p></div></div></div>
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-bold text-lg text-slate-900 mb-3">Euribor (12-Month)</h3><p class="text-sm text-slate-500">Rate as of Aug 24, 2025</p><p id="euribor-12m" class="text-4xl font-bold text-slate-700 mt-2">...</p></div>
-                </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+    <h3 class="font-bold text-lg text-slate-900 mb-3 text-center">Euribor Rates</h3>
+    <p id="euribor-date" class="text-sm text-slate-500 text-center">As of August 26, 2025</p>
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+        <div>
+            <p class="font-semibold text-slate-500">12-Month</p>
+            <p id="euribor-12m" class="text-3xl font-bold text-slate-700">...</p>
+        </div>
+        <div>
+            <p class="font-semibold text-slate-500">3-Month</p>
+            <p id="euribor-3m" class="text-3xl font-bold text-slate-700">...</p>
+        </div>
+    </div>
+</div>
+
+
             </section>
             <section id="bonds-section" class="hidden">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
@@ -105,7 +120,7 @@
    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const App = {
-                GOOGLE_SHEET_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvNBIshbQTCJHdH6Ulh7eZd7Mpxi5hog4iWbhS84Sd5vRQN8Mu4PTxDAXNTfKN6AGR2MllCFnehxKU/pub?gid=0&single=true&output=csv',
+                GOOGLE_SHEET_URL: 'https://script.google.com/macros/s/AKfycbxs-5ee5HmAMz8ojPv8jt8z4tQr05hzJdsu_jKbgf4K2TuBj0IwV_bqQvof3E8VGl-E-w/exec',
                 data: {},
                 charts: {},
 
@@ -113,22 +128,21 @@
                  * Main initialization function. Fetches and processes data, then builds the UI.
                  */
                 async init() {
-                    try {
-                        const csvText = await this.fetchData();
-                        this.data = this.parseCSV(csvText);
-                        
-                        this.updateDateDisplays();
-                        this.updateKpis();
-                        this.createCharts();
-                        this.setupEventListeners();
+    try {
+        // The data is now fetched directly as a parsed JSON object.
+        this.data = await this.fetchData(); 
 
-                        this.hideLoadingOverlay();
-                    } catch (error) {
-                        console.error('Initialization failed:', error);
-                        this.showErrorState(error);
-                    }
-                },
+        this.updateDateDisplays();
+        this.updateKpis();
+        this.createCharts();
+        this.setupEventListeners();
 
+        this.hideLoadingOverlay();
+    } catch (error) {
+        console.error('Initialization failed:', error);
+        this.showErrorState(error);
+    }
+},
                 /**
                  * Fetches CSV data from the Google Sheet.
                  * @returns {Promise<string>} The raw CSV text.
@@ -140,25 +154,17 @@
                 },
 
                 /**
-                 * Parses the specific key-value CSV format from the sheet.
-                 * @param {string} text - The raw CSV string.
-                 * @returns {object} A key-value map of the data.
-                 */
-                parseCSV(text) {
-                    const data = {};
-                    const rows = text.split(/\r?\n/).filter(row => row.trim() !== '');
-                    const headers = ["Portfolio", "Economy", "Cash & Bonds"];
-                    const cleanedRows = rows.filter(row => !headers.includes(row.trim()));
+                 * Fetches JSON data from the Google Apps Script Web App.
+ * @returns {Promise<object>} The parsed JSON data.
+ */
+async fetchData() {
+    const response = await fetch(this.GOOGLE_SHEET_URL);
+    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+    // We now expect JSON directly from our API.
+    return response.json(); 
+},
 
-                    for (let i = 0; i < cleanedRows.length; i += 2) {
-                        if (cleanedRows[i] && cleanedRows[i + 1]) {
-                            const key = cleanedRows[i].trim();
-                            const value = cleanedRows[i + 1].trim().replace(/"/g, '');
-                            data[key] = value;
-                        }
-                    }
-                    return data;
-                },
+
 
                 /**
                  * Cleans a string value and converts it to a number. Handles various formats.
@@ -232,7 +238,7 @@
                         'vti-ytd-usd': 'vti_ytd', 'vwrl-ytd': 'vwrl_ytd', 'erne-ytd': 'erne_ytd',
                         'btc-ytd': 'btc_ytd', 'btc-price': 'btc_price_eur', 'usd-eur-rate': 'usd_eur_rate',
                         'usd-eur-ytd': 'usd_eur_ytd', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
-                        'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m',
+                        'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m','euribor-3m': 'euribor_3m',
                         'wise-interest-rate': 'wise_interest_rate','ing-interest-rate': 'ING_interest_rate',
                         'revolut-interest-rate': 'Revolut_interest_rate'
                     };
@@ -410,11 +416,13 @@
                  * Updates dynamic date elements on the page.
                  */
                 updateDateDisplays() {
-                    const today = new Date();
-                    const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-                    const euriborDateElement = document.querySelector('#euribor-12m').previousElementSibling;
-                    euriborDateElement.textContent = `Rate as of ${dateString}`;
-                },
+    const today = new Date();
+    const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const euriborDateElement = document.getElementById('euribor-date');
+    if (euriborDateElement) {
+        euriborDateElement.textContent = `As of ${dateString}`;
+    }
+},
 
                 /**
                  * Hides the main loading overlay.
