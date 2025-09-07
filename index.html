@@ -67,14 +67,85 @@
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Portfolio YTD Performance Comparison</h2><div class="chart-container"><canvas id="portfolioChart"></canvas></div></div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500 text-center">Currency Snapshot: USD to EUR</h3><p id="usd-eur-rate" class="text-4xl font-bold mt-2 text-center text-slate-700">...</p><p id="usd-eur-ytd" class="text-lg text-center font-semibold mt-1 text-red-500">...</p></div>
             </section>
+            
             <section id="economy-section" class="hidden">
                  <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Rate Comparison (Annual)</h2><div class="chart-container"><canvas id="inflationChart"></canvas></div></div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Breakdown by Category</h2>
+                    <p id="inflation-breakdown-date" class="text-sm text-slate-500 text-center mb-4">...</p>
+                    <div class="chart-container">
+                        <canvas id="inflationBreakdownChart"></canvas>
+                    </div>
+                </div>
+
+               <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
+    <h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Rate Over Time</h2>
+    
+    <div class="flex justify-center items-center flex-wrap gap-x-4 gap-y-2 mb-6">
+        <div class="flex gap-2" role="group">
+            <button class="timeframe-filter-btn active bg-slate-600 text-white py-2 px-4 rounded-full text-sm font-semibold" data-years="all">All</button>
+            <button class="timeframe-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-years="25">25Y</button>
+            <button class="timeframe-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-years="15">15Y</button>
+            <button class="timeframe-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-years="10">10Y</button>
+            <button class="timeframe-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-years="5">5Y</button>
+            <button class="timeframe-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-years="3">3Y</button>
+            <button class="timeframe-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-years="1">1Y</button>
+        </div>
+        <div class="h-6 w-px bg-slate-300 hidden sm:block"></div>
+        <div class="flex gap-2" role="group">
+            <button class="metric-filter-btn active bg-slate-600 text-white py-2 px-4 rounded-full text-sm font-semibold" data-metric="yoy">YoY Rate</button>
+            <button class="metric-filter-btn bg-slate-200 text-slate-700 py-2 px-4 rounded-full text-sm font-semibold" data-metric="cumulative">Cumulative</button>
+        </div>
+    </div>
+
+    <div class="mt-6 md:grid md:grid-cols-3 md:gap-8 md:items-center">
+
+        <div class="chart-container md:col-span-2" style="height: 350px;">
+            <canvas id="inflationHistoryChart"></canvas>
+        </div>
+
+        <div class="md:col-span-1 mt-6 md:mt-0 text-center md:text-left">
+            <div class="space-y-6">
+                <div>
+                    <p id="spain-summary-label" class="font-semibold text-slate-500">...</p>
+                    <p id="spain-summary-value" class="text-3xl font-bold text-slate-700">...</p>
+                </div>
+                <div>
+                    <p id="euro-summary-label" class="font-semibold text-slate-500">...</p>
+                    <p id="euro-summary-value" class="text-3xl font-bold text-slate-700">...</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-bold text-lg text-slate-900 mb-3">Spain Mortgage Rates</h3><div class="space-y-3"><div><p class="text-sm text-slate-500">Lowest</p><p id="es-mortgage-official-ref" class="text-2xl font-semibold text-slate-700">...</p></div><div><p class="text-sm text-slate-500">Average mortgage rate</p><p id="es-mortgage-avg" class="text-2xl font-semibold text-slate-700">...</p></div></div></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+    <h3 class="font-bold text-lg text-slate-900 mb-3">Spain Mortgage Rates</h3>
+    <div class="space-y-3">
+        <div>
+            <p class="text-sm text-slate-500">Lowest</p>
+            <p id="es-mortgage-official-ref" class="text-2xl font-semibold text-slate-700">...</p>
+        </div>
+        <div>
+            <p class="text-sm text-slate-500">Average mortgage rate</p>
+            <p id="es-mortgage-avg" class="text-2xl font-semibold text-slate-700">...</p>
+        </div>
+        <div>
+            <p class="text-sm text-slate-500">ECB mortgage rate</p>
+            <p id="es-ecb-mortgage-rate" class="text-2xl font-semibold text-slate-700">...</p>
+        </div>
+        <div>
+            <p class="text-sm text-slate-500">ECB consumer loan rate</p>
+            <p id="es-ecb-consumer-loan-rate" class="text-2xl font-semibold text-slate-700">...</p>
+        </div>
+    </div>
+</div>
 
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
                         <h3 class="font-bold text-lg text-slate-900 mb-3 text-center">Euribor Rates</h3>
-                        <p id="euribor-date" class="text-sm text-slate-500 text-center">As of August 26, 2025</p>
+                        <p id="euribor-date" class="text-sm text-slate-500 text-center">As of September 7, 2025</p>
                         <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
                             <div>
                                 <p class="font-semibold text-slate-500">12-Month</p>
@@ -88,6 +159,7 @@
                     </div>
                 </div>
             </section>
+            
             <section id="bonds-section" class="hidden">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8">
                     <h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Cash Savings Rates</h2>
@@ -210,7 +282,7 @@
    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const App = {
-                GOOGLE_SHEET_URL: 'https://script.google.com/macros/s/AKfycbxs-5ee5HmAMz8ojPv8jt8z4tQr05hzJdsu_jKbgf4K2TuBj0IwV_bqQvof3E8VGl-E-w/exec',
+                GOOGLE_SHEET_URL: 'https://script.google.com/macros/s/AKfycbwB7k1d07zXHZpGpsPa7wo7N0HjLxCkg0iPqJ1IZXvvX79F-vXvHVpjaR3jrB3reYu5iw/exec',
                 data: {},
                 charts: {},
 
@@ -220,8 +292,8 @@
                 async init() {
                     try {
                         this.data = await this.fetchData(); 
-                        this.updateDateDisplays();
                         this.updateKpis();
+                        this.updateDateDisplays();
                         this.createCharts();
                         this.setupEventListeners();
                         this.hideLoadingOverlay();
@@ -247,15 +319,22 @@
                  * @returns {number} The parsed number, or NaN if invalid.
                  */
                 cleanValue(value) {
-                    if (typeof value !== 'string' || !value.trim() || value.trim().toLowerCase() === 'n/a') return NaN;
-                    let numStr = value.replace(/[^\d,.\-]/g, ''); 
-                    if (numStr.lastIndexOf(',') > numStr.lastIndexOf('.')) {
-                        numStr = numStr.replace(/\./g, '').replace(',', '.');
-                    } else {
-                        numStr = numStr.replace(/,/g, '');
-                    }
-                    return parseFloat(numStr);
-                },
+    // --- NEW: Handle values that are already numbers ---
+    if (typeof value === 'number') {
+        return isNaN(value) ? NaN : value;
+    }
+    // --- END NEW ---
+
+    if (typeof value !== 'string' || !value.trim() || value.trim().toLowerCase() === 'n/a' || value.trim() === '-') return NaN;
+    
+    let numStr = value.toString().replace(/[^\d,.\-]/g, ''); 
+    if (numStr.lastIndexOf(',') > numStr.lastIndexOf('.')) {
+        numStr = numStr.replace(/\./g, '').replace(',', '.');
+    } else {
+        numStr = numStr.replace(/,/g, '');
+    }
+    return parseFloat(numStr);
+},
 
                 /**
                  * Formats a number for display based on its key.
@@ -286,18 +365,88 @@
                     return this.cleanValue(this.data[key]) || defaultValue;
                 },
 
-                /**
-                 * Calculates the cumulative inflation over a number of years based on an annual rate.
-                 * @param {number} annualRate - The annual inflation rate (e.g., 2.5 for 2.5%).
-                 * @param {number} years - The number of years to compound.
-                 * @returns {number} The total cumulative inflation rate.
-                 */
-                calculateCumulativeInflation(annualRate, years) {
-                    if (years <= 1) return annualRate;
-                    const rateDecimal = annualRate / 100;
-                    const cumulativeRate = (Math.pow(1 + rateDecimal, years) - 1) * 100;
-                    return cumulativeRate;
-                },
+/**
+ * The single, authoritative function to calculate cumulative inflation from a historical data series.
+ * @param {Array} data - The array of historical data points to calculate from.
+ * @returns {object} An object containing both the full series for the line chart and the final value for the bonds chart.
+ */
+calculateCumulativeFromHistory(data) {
+    // Helper to run the calculation on a specific series ('spain' or 'euro')
+    const calculate = (seriesKey) => {
+        const series = [0]; // The chart series starts with 0% growth.
+        let cumulativeIndexForSeries = 100;
+
+        // Loop up to the second-to-last element to build the series for the chart.
+        // The value at chart point `i+1` is the result after compounding the rate from data point `i`.
+        for (let i = 0; i < data.length - 1; i++) {
+            const yoyRate = this.cleanValue(data[i][seriesKey]);
+            if (isNaN(yoyRate)) {
+                series.push(series[series.length - 1]);
+                continue;
+            }
+            const monthlyFactor = Math.pow(1 + yoyRate / 100, 1/12);
+            cumulativeIndexForSeries *= monthlyFactor;
+            series.push((cumulativeIndexForSeries / 100 - 1) * 100);
+        }
+        
+        // The final value for the bonds chart needs to include the very last month.
+        // We start with the series index and apply the final month's rate.
+        let cumulativeIndexForFinal = cumulativeIndexForSeries;
+        if (data.length > 0) {
+            const lastRate = this.cleanValue(data[data.length - 1][seriesKey]);
+            if (!isNaN(lastRate)) {
+                cumulativeIndexForFinal *= Math.pow(1 + lastRate / 100, 1/12);
+            }
+        }
+        const finalValue = (cumulativeIndexForFinal / 100 - 1) * 100;
+        
+        return { series: series, finalValue: finalValue };
+    };
+    
+    return {
+        spain: calculate('spain'),
+        euro: calculate('euro')
+    };
+},
+                
+/**
+ * Calculates the actual cumulative inflation over a specific number of years
+ * using historical monthly YoY data.
+ * @param {number} years - The number of years for the calculation (e.g., 3 or 5).
+ * @returns {object} An object with calculated cumulative rates for spain and euro.
+ */
+getActualCumulativeInflation(years) {
+    const historicalData = this.data.historical_inflation;
+    const requiredMonths = years * 12;
+
+    // Check if there's enough historical data for the calculation
+    if (!historicalData || historicalData.length < requiredMonths) {
+        return { spain: NaN, euro: NaN }; // Not enough data
+    }
+
+    // Get the last N months of data for the calculation period
+    const periodData = historicalData.slice(-requiredMonths);
+
+    // Helper to run the calculation on a specific series ('spain' or 'euro')
+    const calculate = (seriesKey) => {
+        let cumulativeIndex = 100;
+        for (const monthData of periodData) {
+            const yoyRate = this.cleanValue(monthData[seriesKey]);
+            if (isNaN(yoyRate)) continue; // Skip any missing data points
+            
+            // Calculate the equivalent monthly growth factor from the YoY rate
+            const monthlyFactor = Math.pow(1 + yoyRate / 100, 1/12);
+            cumulativeIndex *= monthlyFactor;
+        }
+        // Return the total percentage growth over the period
+        return (cumulativeIndex / 100 - 1) * 100;
+    };
+    
+    return {
+        spain: calculate('spain'),
+        euro: calculate('euro')
+    };
+},
 
                 /**
                  * Updates all the key performance indicators (KPIs) in the dashboard.
@@ -309,7 +458,7 @@
                         'usd-eur-ytd': 'usd_eur_ytd', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
                         'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m','euribor-3m': 'euribor_3m',
                         'wise-interest-rate': 'wise_interest_rate','ing-interest-rate': 'ING_interest_rate',
-                        'revolut-interest-rate': 'Revolut_interest_rate'
+                        'revolut-interest-rate': 'Revolut_interest_rate','es-ecb-mortgage-rate': 'es_ecb_mortgage_rate','es-ecb-consumer-loan-rate': 'es_ecb_consumer_loan_rate'
                     };
 
                     for (const [elementId, dataKey] of Object.entries(kpiMapping)) {
@@ -327,6 +476,8 @@
                     const usdEurYtd = this.getNumericData('usd_eur_ytd');
                     if (!isNaN(vtiYtdUsd) && !isNaN(usdEurYtd)) {
                         const vtiYtdEur = vtiYtdUsd + usdEurYtd;
+                        this.data.vti_ytd_eur = vtiYtdEur; 
+
                         const vtiEurElement = document.getElementById('vti-ytd-eur');
                         if (vtiEurElement) {
                             const formattedEurValue = `${vtiYtdEur > 0 ? '+' : ''}${vtiYtdEur.toFixed(2)}% (EUR)`;
@@ -347,26 +498,52 @@
                 createCharts() {
                     this.createPortfolioChart();
                     this.createInflationChart();
+                    this.createInflationBreakdownChart();
+                    this.createInflationHistoryChart();
                     this.createBondsChart();
                 },
 
                 createPortfolioChart() {
                     const ctx = document.getElementById('portfolioChart').getContext('2d');
+                    const positiveColors = [
+                        'rgba(22, 163, 74, 0.6)', 'rgba(5, 150, 105, 0.6)', 
+                        'rgba(13, 148, 136, 0.6)', 'rgba(15, 118, 110, 0.6)'
+                    ];
                     this.charts.portfolio = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['VTI', 'VWRL', 'ERNE', 'Bitcoin'],
+                            labels: ['VTI (EUR)', 'VWRL', 'ERNE', 'Bitcoin'],
                             datasets: [{
                                 label: 'YTD Performance (%)',
                                 data: [
-                                    this.getNumericData('vti_ytd'), this.getNumericData('vwrl_ytd'),
-                                    this.getNumericData('erne_ytd'), this.getNumericData('btc_ytd')
+                                    this.data.vti_ytd_eur || 0,
+                                    this.getNumericData('vwrl_ytd'),
+                                    this.getNumericData('erne_ytd'),
+                                    this.getNumericData('btc_ytd')
                                 ],
-                                backgroundColor: ['rgba(22, 163, 74, 0.6)', 'rgba(5, 150, 105, 0.6)', 'rgba(13, 148, 136, 0.6)', 'rgba(15, 118, 110, 0.6)'],
+                                backgroundColor: function(context) {
+                                    const value = context.raw;
+                                    if (value < 0) {
+                                        return 'rgba(220, 38, 38, 0.6)'; // Red for negative
+                                    }
+                                    return positiveColors[context.dataIndex]; 
+                                },
                                 borderWidth: 1
                             }]
                         },
-                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { ticks: { callback: v => `${v}%` } } } }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        boxWidth: 0
+                                    }
+                                }
+                            },
+                            scales: { y: { ticks: { callback: v => `${v}%` } } }
+                        }
                     });
                 },
                 
@@ -377,87 +554,315 @@
                         data: {
                             labels: ['Annual Inflation Rate (%)'],
                             datasets: [
-                                { label: 'US (CPI)', data: [this.getNumericData('us_inflation_cpi')], backgroundColor: 'rgba(71, 85, 105, 0.7)' },
-                                { label: 'Euro Area (HICP)', data: [this.getNumericData('eu_inflation_hicp')], backgroundColor: 'rgba(100, 116, 139, 0.7)' },
-                                { label: 'Spain (HICP)', data: [this.getNumericData('es_inflation_hicp')], backgroundColor: 'rgba(148, 163, 184, 0.7)' }
+                                { 
+                                    label: 'US (CPI)', 
+                                    data: [this.getNumericData('us_inflation_cpi')], 
+                                    backgroundColor: context => context.raw < 0 ? 'rgba(220, 38, 38, 0.7)' : 'rgba(71, 85, 105, 0.7)'
+                                },
+                                { 
+                                    label: 'Euro Area (HICP)', 
+                                    data: [this.getNumericData('eu_inflation_hicp')], 
+                                    backgroundColor: context => context.raw < 0 ? 'rgba(220, 38, 38, 0.7)' : 'rgba(100, 116, 139, 0.7)'
+                                },
+                                { 
+                                    label: 'Spain (HICP)', 
+                                    data: [this.getNumericData('es_inflation_hicp')], 
+                                    backgroundColor: context => context.raw < 0 ? 'rgba(220, 38, 38, 0.7)' : 'rgba(148, 163, 184, 0.7)'
+                                }
                             ]
                         },
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { ticks: { callback: v => `${v}%` } } } }
                     });
                 },
 
-                createBondsChart() {
-                    const bondsData = {
-                        labels: [
-                            ['ERNE', 'Ultra Short Corp'], ['IE15', '1-5Y Cor'],
-                            ['IEGE', '0-1y Gov'], ['EGV3', '1-3Y Gov'], ['IBGX', '3-5y Gov'], 
-                        ],
-                        metrics: {
-                            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'ie15_interest_rate', 'iege_interest_rate', 'egv3_interest_rate', 'ibgx_interest_rate'].map(k => this.getNumericData(k))},
-                            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
-                            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y', 'ie15_return_3y', 'iege_return_3y', 'egv3_return_3y', 'ibgx_return_3y'].map(k => this.getNumericData(k))},
-                            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y', 'ie15_return_5y', 'iege_return_5y', 'egv3_return_5y', 'ibgx_return_5y'].map(k => this.getNumericData(k))}
-                        }
-                    };
-                    const euInflation = this.getNumericData('eu_inflation_hicp');
-                    const esInflation = this.getNumericData('es_inflation_hicp');
-                    const ctx = document.getElementById('bondsChart').getContext('2d');
-                    this.charts.bonds = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: bondsData.labels,
-                            datasets: [{
-                                label: bondsData.metrics.interestRate.label,
-                                data: bondsData.metrics.interestRate.data,
-                                backgroundColor: 'rgba(71, 85, 105, 0.7)'
-                            }]
-                        },
-                        options: {
-                            responsive: true, maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                annotation: {
-                                    annotations: {
-                                        euLine: { type: 'line', yMin: euInflation, yMax: euInflation, borderColor: 'rgb(239, 68, 68)', borderWidth: 2, borderDash: [6, 6] },
-                                        esLine: { type: 'line', yMin: esInflation, yMax: esInflation, borderColor: 'rgb(59, 130, 246)', borderWidth: 2, borderDash: [6, 6] }
-                                    }
-                                }
-                            },
-                            scales: { y: { grace: '10%', ticks: { callback: v => `${v}%` } } }
-                        }
-                    });
+                /**
+ * Creates the inflation breakdown by category chart.
+ */
+createInflationBreakdownChart() {
+    const ctx = document.getElementById('inflationBreakdownChart').getContext('2d');
+    
+    // --- UPDATED LABELS AND DATA ---
+    // The labels now match the order and content you provided.
+    const labels = [
+        'Overall', 'Food', 'Clothing', 'Housing', 'Health', 
+        'Transport', 'Communication', 'Restaurants', 'Recreation'
+    ];
+    // The data arrays now fetch from all the correct keys.
+    const spainData = [
+        this.getNumericData('es_inflation_hicp'),
+        this.getNumericData('es_inflation_food'),
+        this.getNumericData('es_inflation_clothing'),
+        this.getNumericData('es_inflation_housing'),
+        this.getNumericData('es_inflation_health'),
+        this.getNumericData('es_inflation_transport'),
+        this.getNumericData('es_inflation_communication'),
+        this.getNumericData('es_inflation_restaurants'),
+        this.getNumericData('es_inflation_recreation')
+    ];
+    const euroData = [
+        this.getNumericData('eu_inflation_hicp'),
+        this.getNumericData('eu_inflation_food'),
+        this.getNumericData('eu_inflation_clothing'),
+        this.getNumericData('eu_inflation_housing'),
+        this.getNumericData('eu_inflation_health'),
+        this.getNumericData('eu_inflation_transport'),
+        this.getNumericData('eu_inflation_communication'),
+        this.getNumericData('eu_inflation_restaurants'),
+        this.getNumericData('eu_inflation_recreation')
+    ];
+    // --- END UPDATES ---
 
-                    document.querySelectorAll('.bond-chart-btn').forEach(button => {
-                        button.addEventListener('click', () => {
-                            const metric = button.dataset.metric;
-                            const metricData = bondsData.metrics[metric];
-                            const chart = this.charts.bonds;
-                            chart.data.datasets[0].label = metricData.label;
-                            chart.data.datasets[0].data = metricData.data;
-                            
-                            let years = 1;
-                            if (metric === 'return3Y') years = 3;
-                            if (metric === 'return5Y') years = 5;
-
-                            const newEuInflation = this.calculateCumulativeInflation(euInflation, years);
-                            const newEsInflation = this.calculateCumulativeInflation(esInflation, years);
-                            
-                            const { annotations } = chart.options.plugins.annotation;
-                            annotations.euLine.yMin = newEuInflation;
-                            annotations.euLine.yMax = newEuInflation;
-                            annotations.esLine.yMin = newEsInflation;
-                            annotations.esLine.yMax = newEsInflation;
-
-                            const legendSuffix = years > 1 ? ` (${years}Y Cum.)` : ` (Annual)`;
-                            document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${newEuInflation.toFixed(1)}%${legendSuffix})`;
-                            document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${newEsInflation.toFixed(1)}%${legendSuffix})`;
-                            
-                            chart.update();
-                            document.querySelectorAll('.bond-chart-btn').forEach(btn => btn.classList.remove('active', 'bg-slate-600', 'text-white'));
-                            button.classList.add('active', 'bg-slate-600', 'text-white');
-                        });
-                    });
+    this.charts.inflationBreakdown = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Spain',
+                    data: spainData,
+                    backgroundColor: 'rgba(251, 191, 36, 0.7)', // Yellow
                 },
+                {
+                    label: 'Euro area',
+                    data: euroData,
+                    backgroundColor: 'rgba(59, 130, 246, 0.7)', // Blue
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } },
+            scales: { y: { ticks: { callback: v => `${v}%` } } }
+        }
+    });
+},
+
+/**
+ * Creates the historical inflation line chart with timeframe and metric filters.
+ */
+createInflationHistoryChart() {
+    const ctx = document.getElementById('inflationHistoryChart').getContext('2d');
+    const historyData = this.data.historical_inflation || [];
+    const chart = this.charts.inflationHistory = new Chart(ctx, {
+        type: 'line',
+        data: { /* Data will be populated by updateChart */ },
+        options: { /* Options will be populated by updateChart */ }
+    });
+
+    const updateChart = () => {
+        const activeTimeframe = document.querySelector('.timeframe-filter-btn.active').dataset.years;
+        const activeMetric = document.querySelector('.metric-filter-btn.active').dataset.metric;
+
+        let filteredData = historyData;
+        if (activeTimeframe !== 'all') {
+            const numYears = parseInt(activeTimeframe);
+            const cutoffDate = new Date();
+            cutoffDate.setFullYear(cutoffDate.getFullYear() - numYears);
+            filteredData = historyData.filter(d => new Date(d.date) >= cutoffDate);
+        }
+
+        let spainDataset, euroDataset, yAxisCallback;
+
+        // Helper function to calculate the average of an array of numbers
+        const calculateAverage = (data) => {
+            const cleanData = data.filter(v => !isNaN(v));
+            if (cleanData.length === 0) return 0;
+            const sum = cleanData.reduce((acc, v) => acc + v, 0);
+            return sum / cleanData.length;
+        };
+
+        if (activeMetric === 'yoy') {
+            spainDataset = filteredData.map(d => this.cleanValue(d.spain));
+            euroDataset = filteredData.map(d => this.cleanValue(d.euro));
+            yAxisCallback = v => `${v}%`;
+        } else { // 'cumulative'
+            const calculateCumulativeSeries = (data) => {
+                if (!data || data.length === 0) return [];
+                const series = [];
+                let cumulativeIndex = 100;
+                for (const yoyRate of data) {
+                    const cleanedRate = this.cleanValue(yoyRate);
+                    if (isNaN(cleanedRate)) {
+                        series.push(series.length > 0 ? series[series.length - 1] : 0);
+                        continue;
+                    }
+                    const monthlyFactor = Math.pow(1 + cleanedRate / 100, 1/12);
+                    cumulativeIndex *= monthlyFactor;
+                    series.push((cumulativeIndex / 100 - 1) * 100);
+                }
+                series.unshift(0);
+                series.pop();
+                return series;
+            };
+            spainDataset = calculateCumulativeSeries(filteredData.map(d => d.spain));
+            euroDataset = calculateCumulativeSeries(filteredData.map(d => d.euro));
+            yAxisCallback = v => `${v.toFixed(1)}%`;
+        }
+        
+        chart.data.labels = filteredData.map(d => {
+            const date = new Date(d.date);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            return `${date.getFullYear()}-${month}`;
+        });
+        chart.data.datasets = [
+            { label: 'Spain', data: spainDataset, borderColor: 'rgba(251, 191, 36, 1)', backgroundColor: 'rgba(251, 191, 36, 0.1)', borderWidth: 2, pointRadius: 0, tension: 0.1 },
+            { label: 'Euro area', data: euroDataset, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, pointRadius: 0, tension: 0.1 }
+        ];
+        chart.options.responsive = true;
+        chart.options.maintainAspectRatio = false;
+        chart.options.plugins = { legend: { position: 'bottom' } };
+        chart.options.scales = { 
+            y: { ticks: { callback: yAxisCallback } },
+            x: { ticks: { 
+                autoSkip: true, maxRotation: 0,
+                callback: function(value, index, ticks) {
+                    const currentLabel = this.getLabelForValue(value);
+                    if (!currentLabel) return '';
+                    const currentYear = currentLabel.substring(0, 4);
+                    const previousTick = ticks[index - 1];
+                    const previousLabel = previousTick ? this.getLabelForValue(previousTick.value) : null;
+                    const previousYear = previousLabel ? previousLabel.substring(0, 4) : null;
+                    if (index === 0 || currentYear !== previousYear) return currentYear;
+                    return '';
+                }
+            }}
+        };
+        chart.update();
+
+        // --- NEW: UPDATE SUMMARY VALUES ---
+        const spainLabelEl = document.getElementById('spain-summary-label');
+        const spainValueEl = document.getElementById('spain-summary-value');
+        const euroLabelEl = document.getElementById('euro-summary-label');
+        const euroValueEl = document.getElementById('euro-summary-value');
+
+        if (activeMetric === 'yoy') {
+            spainLabelEl.textContent = 'Spain (Average YoY)';
+            euroLabelEl.textContent = 'Euro Area (Average YoY)';
+            
+            const spainAvg = calculateAverage(spainDataset);
+            const euroAvg = calculateAverage(euroDataset);
+
+            spainValueEl.textContent = `${spainAvg.toFixed(1)}%`;
+            euroValueEl.textContent = `${euroAvg.toFixed(1)}%`;
+        } else { // 'cumulative'
+            spainLabelEl.textContent = 'Spain (Cumulative)';
+            euroLabelEl.textContent = 'Euro Area (Cumulative)';
+
+            const spainCumulative = spainDataset[spainDataset.length - 1];
+            const euroCumulative = euroDataset[euroDataset.length - 1];
+
+            spainValueEl.textContent = `${spainCumulative.toFixed(1)}%`;
+            euroValueEl.textContent = `${euroCumulative.toFixed(1)}%`;
+        }
+    };
+
+    document.querySelectorAll('.timeframe-filter-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            document.querySelectorAll('.timeframe-filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-slate-600', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            e.currentTarget.classList.add('active', 'bg-slate-600', 'text-white');
+            updateChart();
+        });
+    });
+
+    document.querySelectorAll('.metric-filter-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            document.querySelectorAll('.metric-filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-slate-600', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            e.currentTarget.classList.add('active', 'bg-slate-600', 'text-white');
+            updateChart();
+        });
+    });
+    
+    updateChart();
+},
+
+
+createBondsChart() {
+    const bondsData = {
+        labels: [
+            ['ERNE', 'Ultra Short Corp'], ['IE15', '1-5Y Cor'],
+            ['IEGE', '0-1y Gov'], ['EGV3', '1-3Y Gov'], ['IBGX', '3-5y Gov'], 
+        ],
+        metrics: {
+            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'ie15_interest_rate', 'iege_interest_rate', 'egv3_interest_rate', 'ibgx_interest_rate'].map(k => this.getNumericData(k))},
+            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
+            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y', 'ie15_return_3y', 'iege_return_3y', 'egv3_return_3y', 'ibgx_return_3y'].map(k => this.getNumericData(k))},
+            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y', 'ie15_return_5y', 'iege_return_5y', 'egv3_return_5y', 'ibgx_return_5y'].map(k => this.getNumericData(k))}
+        }
+    };
+    const euInflation = this.getNumericData('eu_inflation_hicp');
+    const esInflation = this.getNumericData('es_inflation_hicp');
+    const historyData = this.data.historical_inflation || [];
+    const ctx = document.getElementById('bondsChart').getContext('2d');
+    this.charts.bonds = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: bondsData.labels,
+            datasets: [{
+                label: bondsData.metrics.interestRate.label,
+                data: bondsData.metrics.interestRate.data,
+                backgroundColor: context => context.raw < 0 ? 'rgba(220, 38, 38, 0.7)' : 'rgba(71, 85, 105, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                annotation: {
+                    annotations: {
+                        euLine: { type: 'line', yMin: euInflation, yMax: euInflation, borderColor: 'rgb(239, 68, 68)', borderWidth: 2, borderDash: [6, 6] },
+                        esLine: { type: 'line', yMin: esInflation, yMax: esInflation, borderColor: 'rgb(59, 130, 246)', borderWidth: 2, borderDash: [6, 6] }
+                    }
+                }
+            },
+            scales: { y: { grace: '10%', ticks: { callback: v => `${v}%` } } }
+        }
+    });
+
+    document.querySelectorAll('.bond-chart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const metric = button.dataset.metric;
+            const metricData = bondsData.metrics[metric];
+            const chart = this.charts.bonds;
+            chart.data.datasets[0].label = metricData.label;
+            chart.data.datasets[0].data = metricData.data;
+            
+            let years = 1;
+            if (metric === 'return3Y') years = 3;
+            if (metric === 'return5Y') years = 5;
+
+            let newEuInflation = this.getNumericData('eu_inflation_hicp');
+            let newEsInflation = this.getNumericData('es_inflation_hicp');
+            
+            if (metric.startsWith('return')) {
+                const periodData = historyData.slice(-years * 12);
+                const actualRates = this.calculateCumulativeFromHistory(periodData);
+                newEuInflation = actualRates.euro.finalValue;
+                newEsInflation = actualRates.spain.finalValue;
+            }
+            
+            const { annotations } = chart.options.plugins.annotation;
+            annotations.euLine.yMin = newEuInflation;
+            annotations.euLine.yMax = newEuInflation;
+            annotations.esLine.yMin = newEsInflation;
+            annotations.esLine.yMax = newEsInflation;
+
+            const legendSuffix = (metric === 'interestRate') ? ` (Annual)` : ` (${years}Y Cum.)`;
+            document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${isNaN(newEuInflation) ? 'N/A' : newEuInflation.toFixed(1) + '%' + legendSuffix})`;
+            document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${isNaN(newEsInflation) ? 'N/A' : newEsInflation.toFixed(1) + '%' + legendSuffix})`;
+            
+            chart.update();
+            document.querySelectorAll('.bond-chart-btn').forEach(btn => btn.classList.remove('active', 'bg-slate-600', 'text-white'));
+            button.classList.add('active', 'bg-slate-600', 'text-white');
+        });
+    });
+},
                 
                 /**
                  * Sets up all general event listeners for the application (e.g., navigation).
@@ -475,58 +880,47 @@
                         });
                     });
 
-                    // --- NEW: Compounding Calculator Listeners ---
+                    // Compounding Calculator Listeners
                     document.getElementById('calc-fv-btn').addEventListener('click', () => {
                         const pv = parseFloat(document.getElementById('fv-pv').value);
                         const r = parseFloat(document.getElementById('fv-r').value);
                         const n = parseFloat(document.getElementById('fv-n').value);
                         const resultEl = document.getElementById('fv-result');
-
                         if (isNaN(pv) || isNaN(r) || isNaN(n)) {
-                            resultEl.textContent = 'Please fill all fields.';
-                            return;
+                            resultEl.textContent = 'Please fill all fields.'; return;
                         }
                         const fv = pv * Math.pow(1 + (r / 100), n);
                         resultEl.textContent = `Future Value: ${fv.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
                     });
-                    
                     document.getElementById('calc-pv-btn').addEventListener('click', () => {
                         const fv = parseFloat(document.getElementById('pv-fv').value);
                         const r = parseFloat(document.getElementById('pv-r').value);
                         const n = parseFloat(document.getElementById('pv-n').value);
                         const resultEl = document.getElementById('pv-result');
-
                         if (isNaN(fv) || isNaN(r) || isNaN(n)) {
-                            resultEl.textContent = 'Please fill all fields.';
-                            return;
+                            resultEl.textContent = 'Please fill all fields.'; return;
                         }
                         const pv = fv / Math.pow(1 + (r / 100), n);
                         resultEl.textContent = `Present Value: ${pv.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
                     });
-
                     document.getElementById('calc-r-btn').addEventListener('click', () => {
                         const fv = parseFloat(document.getElementById('r-fv').value);
                         const pv = parseFloat(document.getElementById('r-pv').value);
                         const n = parseFloat(document.getElementById('r-n').value);
                         const resultEl = document.getElementById('r-result');
-
                         if (isNaN(fv) || isNaN(pv) || isNaN(n) || pv === 0) {
-                            resultEl.textContent = 'Invalid inputs.';
-                            return;
+                            resultEl.textContent = 'Invalid inputs.'; return;
                         }
                         const r = (Math.pow(fv / pv, 1 / n) - 1) * 100;
                         resultEl.textContent = `Annual Rate (r): ${r.toFixed(2)}%`;
                     });
-
                     document.getElementById('calc-n-btn').addEventListener('click', () => {
                         const fv = parseFloat(document.getElementById('n-fv').value);
                         const pv = parseFloat(document.getElementById('n-pv').value);
                         const r = parseFloat(document.getElementById('n-r').value);
                         const resultEl = document.getElementById('n-result');
-
                         if (isNaN(fv) || isNaN(pv) || isNaN(r) || pv === 0 || r <= 0) {
-                            resultEl.textContent = 'Invalid inputs (r must be > 0).';
-                            return;
+                            resultEl.textContent = 'Invalid inputs (r must be > 0).'; return;
                         }
                         const n = Math.log(fv / pv) / Math.log(1 + (r / 100));
                         resultEl.textContent = `Periods (n): ${n.toFixed(2)}`;
@@ -539,9 +933,14 @@
                 updateDateDisplays() {
                     const today = new Date();
                     const dateString = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-                    const euriborDateElement = document.getElementById('euribor-date');
-                    if (euriborDateElement) {
-                        euriborDateElement.textContent = `As of ${dateString}`;
+                    document.getElementById('euribor-date').textContent = `As of ${dateString}`;
+                    
+                    const inflationDateRaw = this.data['es_inflation_date'];
+                    if (inflationDateRaw) {
+                        const [year, month] = inflationDateRaw.split('-');
+                        const dateObj = new Date(year, month - 1);
+                        const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                        document.getElementById('inflation-breakdown-date').textContent = `Latest data from ${formattedDate}`;
                     }
                 },
 
@@ -562,7 +961,6 @@
                     loadingEl.innerHTML = '<p class="text-red-600 font-semibold text-center">Failed to load data.<br>Check your Google Sheet URL and its "Publish to web" settings.</p>';
                 }
             };
-
             App.init();
         });
     </script>
@@ -578,4 +976,3 @@
     </script>
 </body>
 </html>
-
