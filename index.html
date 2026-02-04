@@ -448,7 +448,7 @@ getActualCumulativeInflation(years) {
     };
 },
 
-                /**
+               /**
                  * Updates all the key performance indicators (KPIs) in the dashboard.
                  */
                 updateKpis() {
@@ -464,11 +464,27 @@ getActualCumulativeInflation(years) {
                     for (const [elementId, dataKey] of Object.entries(kpiMapping)) {
                         const element = document.getElementById(elementId);
                         if (element) {
-                            let formattedValue = this.formatValue(dataKey, this.data[dataKey]);
+                            const rawValue = this.data[dataKey];
+                            const numericValue = this.cleanValue(rawValue);
+                            let formattedValue = this.formatValue(dataKey, rawValue);
+                            
                             if (elementId === 'btc-price') formattedValue = `Current Price: ${formattedValue}`;
                             if (elementId === 'usd-eur-ytd') formattedValue = `YTD: ${formattedValue}`;
                             if (elementId === 'vti-ytd-usd') formattedValue = `${formattedValue} (USD)`;
+                            
                             element.textContent = formattedValue;
+
+                            // --- LOGIC FOR RED/GREEN COLORING ---
+                            // Only apply color logic to YTD performance fields
+                            if (elementId.includes('ytd')) {
+                                if (numericValue < 0) {
+                                    element.classList.remove('text-emerald-600');
+                                    element.classList.add('text-red-600');
+                                } else if (numericValue > 0) {
+                                    element.classList.remove('text-red-600');
+                                    element.classList.add('text-emerald-600');
+                                }
+                            }
                         }
                     }
                     
@@ -482,7 +498,8 @@ getActualCumulativeInflation(years) {
                         if (vtiEurElement) {
                             const formattedEurValue = `${vtiYtdEur > 0 ? '+' : ''}${vtiYtdEur.toFixed(2)}% (EUR)`;
                             vtiEurElement.textContent = formattedEurValue;
-                            vtiEurElement.className = vtiYtdEur >= 0 ? 'text-lg font-semibold text-emerald-600 mt-1' : 'text-lg font-semibold text-red-500 mt-1';
+                            // This already had logic, but we update it to match the Tailwind red
+                            vtiEurElement.className = vtiYtdEur >= 0 ? 'text-lg font-semibold text-emerald-600 mt-1' : 'text-lg font-semibold text-red-600 mt-1';
                         }
                     }
 
@@ -491,7 +508,6 @@ getActualCumulativeInflation(years) {
                     document.getElementById('eu-inflation-legend').textContent = `EU Inflation (${isNaN(euInflation) ? 'N/A' : euInflation.toFixed(1) + '%'})`;
                     document.getElementById('es-inflation-legend').textContent = `Spain Inflation (${isNaN(esInflation) ? 'N/A' : esInflation.toFixed(1) + '%'})`;
                 },
-
                 /**
                  * Initializes all charts with data.
                  */
@@ -976,3 +992,4 @@ createBondsChart() {
     </script>
 </body>
 </html>
+
