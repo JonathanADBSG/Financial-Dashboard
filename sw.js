@@ -1,4 +1,4 @@
-const CACHE_NAME = 'financial-report-v19';
+const CACHE_NAME = 'financial-report-v20';
 const APP_SHELL_URLS = [
   './',
   './index.html',
@@ -57,6 +57,7 @@ self.addEventListener('fetch', event => {
     );
   }
 });
+
 
 
 
