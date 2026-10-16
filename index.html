@@ -54,19 +54,18 @@
         </nav>
         <main>
             <section id="portfolio-section">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-                        <h3 class="font-semibold text-slate-500">VTI (YTD)</h3>
-                        <p id="vti-ytd-usd" class="text-3xl font-bold mt-2 text-emerald-600">...</p>
-                        <p id="vti-ytd-eur" class="text-lg font-semibold text-slate-500 mt-1">...</p>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VTI (YTD)</h3><p id="vti-ytd-usd" class="text-3xl font-bold mt-2 text-emerald-600">...</p><p id="vti-ytd-eur" class="text-lg font-semibold text-slate-500 mt-1">...</p></div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VWRL (YTD)</h3><p id="vwrl-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">ERNE (YTD)</h3><p id="erne-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">DWS FRN (YTD)</h3><p id="DWS_FRN_ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">Bitcoin (YTD)</h3><p id="btc-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p><p id="btc-price" class="text-sm text-slate-500 mt-1">...</p></div>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Portfolio YTD Performance Comparison</h2><div class="chart-container"><canvas id="portfolioChart"></canvas></div></div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500 text-center">Currency Snapshot: USD to EUR</h3><p id="usd-eur-rate" class="text-4xl font-bold mt-2 text-center text-slate-700">...</p><p id="usd-eur-ytd" class="text-lg text-center font-semibold mt-1 text-red-600">...</p></div>
+<div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500 text-center">Currency Snapshot: GBP to EUR</h3><p id="GBP_eur_rate" class="text-4xl font-bold mt-2 text-center text-slate-700">...</p><p id="GBP_eur_ytd" class="text-lg text-center font-semibold mt-1 text-red-600">...</p></div>
             </section>
+
             
             <section id="economy-section" class="hidden">
                  <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100 mb-8"><h2 class="text-xl font-bold text-slate-900 mb-4 text-center">Inflation Rate Comparison (Annual)</h2><div class="chart-container"><canvas id="inflationChart"></canvas></div></div>
@@ -350,8 +349,12 @@
                         return `€${number.toLocaleString('en-US')}`;
                     }
                     if (key === 'usd_eur_rate') {
-                        return number.toFixed(4);
+                        return number.toFixed(2);
                     }
+		    if (key === 'GBP_eur_rate') {
+                        return number.toFixed(2);
+                    }
+
                     return `${number > 0 ? '+' : ''}${number.toFixed(2)}%`;
                 },
 
@@ -453,9 +456,9 @@ getActualCumulativeInflation(years) {
                  */
                 updateKpis() {
                     const kpiMapping = {
-                        'vti-ytd-usd': 'vti_ytd', 'vwrl-ytd': 'vwrl_ytd', 'erne-ytd': 'erne_ytd',
+                        'vti-ytd-usd': 'vti_ytd', 'vwrl-ytd': 'vwrl_ytd', 'DWS_FRN_ytd': 'DWS_FRN_ytd', 'erne-ytd': 'erne_ytd',
                         'btc-ytd': 'btc_ytd', 'btc-price': 'btc_price_eur', 'usd-eur-rate': 'usd_eur_rate',
-                        'usd-eur-ytd': 'usd_eur_ytd', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
+                        'usd-eur-ytd': 'usd_eur_ytd', 'GBP_eur_ytd': 'GBP_eur_ytd', 'GBP_eur_rate': 'GBP_eur_rate', 'es-mortgage-official-ref': 'es_mortgage_official_ref',
                         'es-mortgage-avg': 'es_mortgage_avg', 'euribor-12m': 'euribor_12m','euribor-3m': 'euribor_3m',
                         'wise-interest-rate': 'wise_interest_rate','ing-interest-rate': 'ING_interest_rate',
                         'revolut-interest-rate': 'Revolut_interest_rate','es-ecb-mortgage-rate': 'es_ecb_mortgage_rate','es-ecb-consumer-loan-rate': 'es_ecb_consumer_loan_rate'
@@ -470,7 +473,8 @@ getActualCumulativeInflation(years) {
                             
                             if (elementId === 'btc-price') formattedValue = `Current Price: ${formattedValue}`;
                             if (elementId === 'usd-eur-ytd') formattedValue = `YTD: ${formattedValue}`;
-                            if (elementId === 'vti-ytd-usd') formattedValue = `${formattedValue} (USD)`;
+                            if (elementId === 'GBP_eur_ytd') formattedValue = `YTD: ${formattedValue}`;
+                            if (elementId === 'vti-ytd-usd') formattedValue = `${formattedValue}`;
                             
                             element.textContent = formattedValue;
 
@@ -528,13 +532,14 @@ getActualCumulativeInflation(years) {
                     this.charts.portfolio = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['VTI (EUR)', 'VWRL', 'ERNE', 'Bitcoin'],
+                            labels: ['VTI (EUR)', 'VWRL', 'ERNE', 'DWS FRN', 'Bitcoin'],
                             datasets: [{
                                 label: 'YTD Performance (%)',
                                 data: [
                                     this.data.vti_ytd_eur || 0,
                                     this.getNumericData('vwrl_ytd'),
                                     this.getNumericData('erne_ytd'),
+                                    this.getNumericData('DWS_FRN_ytd'),
                                     this.getNumericData('btc_ytd')
                                 ],
                                 backgroundColor: function(context) {
@@ -802,14 +807,14 @@ createInflationHistoryChart() {
 createBondsChart() {
     const bondsData = {
         labels: [
-            ['ERNE', 'Ultra Short Corp'], ['IE15', '1-5Y Cor'],
+            ['ERNE', 'Ultra Short Corp'],['DWS FRN', 'Fondo Traspaso'], ['IE15', '1-5Y Cor'],
             ['IEGE', '0-1y Gov'], ['EGV3', '1-3Y Gov'], ['IBGX', '3-5y Gov'], 
         ],
         metrics: {
-            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate', 'ie15_interest_rate', 'iege_interest_rate', 'egv3_interest_rate', 'ibgx_interest_rate'].map(k => this.getNumericData(k))},
-            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
-            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y', 'ie15_return_3y', 'iege_return_3y', 'egv3_return_3y', 'ibgx_return_3y'].map(k => this.getNumericData(k))},
-            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y', 'ie15_return_5y', 'iege_return_5y', 'egv3_return_5y', 'ibgx_return_5y'].map(k => this.getNumericData(k))}
+            interestRate: { label: 'Interest Rate (%)', data: ['erne_interest_rate','erne_interest_rate', 'ie15_interest_rate', 'iege_interest_rate', 'egv3_interest_rate', 'ibgx_interest_rate'].map(k => this.getNumericData(k))},
+            return1Y: { label: '1-Year Return (%)', data: ['erne_return_1y','DWS_FRN_1y', 'ie15_return_1y', 'iege_return_1y', 'egv3_return_1y', 'ibgx_return_1y'].map(k => this.getNumericData(k))},
+            return3Y: { label: '3-Year Return (%)', data: ['erne_return_3y','DWS_FRN_3y', 'ie15_return_3y', 'iege_return_3y', 'egv3_return_3y', 'ibgx_return_3y'].map(k => this.getNumericData(k))},
+            return5Y: { label: '5-Year Return (%)', data: ['erne_return_5y','DWS_FRN_5y','ie15_return_5y', 'iege_return_5y', 'egv3_return_5y', 'ibgx_return_5y'].map(k => this.getNumericData(k))}
         }
     };
     const euInflation = this.getNumericData('eu_inflation_hicp');
