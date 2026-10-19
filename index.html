@@ -53,10 +53,11 @@
             <button id="btn-compounding" class="nav-btn flex-1 text-center py-2 px-4 rounded-full text-slate-600 font-semibold">Compounding</button>
         </nav>
         <main>
+
+            <section id="portfolio-section">
 <!-- Section Title -->
     <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">Portfolio Performance</h2>
 
-            <section id="portfolio-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VTI (YTD)</h3><p id="vti-ytd-usd" class="text-3xl font-bold mt-2 text-emerald-600">...</p><p id="vti-ytd-eur" class="text-lg font-semibold text-slate-500 mt-1">...</p></div>
                     <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100"><h3 class="font-semibold text-slate-500">VWRL (YTD)</h3><p id="vwrl-ytd" class="text-3xl font-bold mt-2 text-emerald-600">...</p></div>
@@ -165,6 +166,25 @@
             <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
                 <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">FIRE AVG</p>
                 <p id="fire_avg" class="text-xl font-bold mt-1 text-slate-700">€...</p>
+            </div>
+        </div>
+</div>
+
+  <!-- Table 4: Current Expenses -->
+    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+        <h3 class="font-semibold text-lg text-slate-700 mb-4">Current Expenses</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Current</p>
+                <p id="Current_Expenses" class="text-xl font-bold mt-1 text-slate-700">€...</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Restricted</p>
+                <p id="Current_Restricted" class="text-xl font-bold mt-1 text-slate-700">€...</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Minimum</p>
+                <p id="Current_Minimum" class="text-xl font-bold mt-1 text-slate-700">€...</p>
             </div>
         </div>
     </div>
@@ -570,7 +590,9 @@ getActualCumulativeInflation(years) {
 			'noise_zone_nw': 'noise_zone_nw','tactical_zone_nw': 'tactical_zone_nw','structural_zone_nw': 'structural_zone_nw',
 			'noise_zone_lnw': 'noise_zone_lnw','tactical_zone_lnw': 'tactical_zone_lnw','structural_zone_lnw': 'structural_zone_lnw',
 			'currency_risk': 'currency_risk','10_savings': '10_savings','5_savings': '5_savings','3_savings': '3_savings','1_savings': '1_savings',
-			'fire_nw': 'fire_nw','fire_lnw': 'fire_lnw','fire_avg': 'fire_avg'
+			'fire_nw': 'fire_nw','fire_lnw': 'fire_lnw','fire_avg': 'fire_avg',
+			'Current_Expenses': 'Current_Expenses','Current_Restricted': 'Current_Restricted','Current_Minimum': 'Current_Minimum'
+
                     };
 
                     for (const [elementId, dataKey] of Object.entries(kpiMapping)) {
@@ -590,7 +612,8 @@ getActualCumulativeInflation(years) {
             'noise_zone_nw', 'tactical_zone_nw', 'structural_zone_nw',
             'noise_zone_lnw', 'tactical_zone_lnw', 'structural_zone_lnw',
             'currency_risk', '10_savings', '5_savings', '3_savings', '1_savings',
-            'fire_nw', 'fire_lnw', 'fire_avg'
+            'fire_nw', 'fire_lnw', 'fire_avg',
+	    'Current_Expenses','Current_Restricted','Current_Minimum'
         ];
 
         if (euroElementIds.includes(elementId)) {
