@@ -1,4 +1,4 @@
-const CACHE_NAME = 'financial-report-v24';
+const CACHE_NAME = 'financial-report-v25';
 const APP_SHELL_URLS = [
   './',
   './index.html',
